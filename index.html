@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arabic MCQ Examination</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #1e40af;
+      --accent: #0284c7;
+      --success: #15803d;
+      --success-bg: #dcfce7;
+      --danger: #b91c1c;
+      --danger-bg: #fee2e2;
+      --neutral-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--neutral-bg);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .arabic-text {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+      text-align: right;
+      font-size: 1.35rem;
+    }
+
+    .malayalam-text {
+      font-family: 'Noto Sans Malayalam', sans-serif;
+      direction: ltr;
+      text-align: left;
+      color: #0369a1;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Login Screen */
+    #login-screen {
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #login-screen.active {
+      display: flex;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    .login-header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .login-header h1 {
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .badge-info {
+      display: inline-block;
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 4px 2px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--primary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      width: 100%;
+      padding: 12px;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-submit {
+      background: #16a34a;
+      color: white;
+      font-size: 1.1rem;
+      padding: 14px 32px;
+      width: 100%;
+      margin: 30px 0;
+    }
+
+    .btn-submit:hover {
+      background: #15803d;
+    }
+
+    /* Top Sticky Header */
+    .exam-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      margin-bottom: 24px;
+    }
+
+    .exam-nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .student-badge {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .progress-pill {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* Question Cards */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .q-number {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .q-text-block {
+      margin-bottom: 18px;
+    }
+
+    .q-arabic {
+      line-height: 1.8;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .q-translation {
+      display: none;
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: #f0f9ff;
+      border-radius: 6px;
+      border-left: 3px solid #0284c7;
+    }
+
+    .hint-block {
+      display: none;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    .hint-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #b45309;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .opt-btn {
+      width: 100%;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: right;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      transition: all 0.15s ease-in-out;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background-color: #f8fafc;
+    }
+
+    .opt-main {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      direction: rtl;
+    }
+
+    .opt-label-ar {
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Amiri', serif;
+      font-size: 1.2rem;
+    }
+
+    .opt-trans {
+      display: none;
+      margin-top: 6px;
+      width: 100%;
+      font-size: 0.85rem;
+    }
+
+    /* Option Feedback States */
+    .opt-btn.correct {
+      background-color: var(--success-bg) !important;
+      border-color: var(--success) !important;
+      color: #064e3b !important;
+    }
+
+    .opt-btn.incorrect {
+      background-color: var(--danger-bg) !important;
+      border-color: var(--danger) !important;
+      color: #7f1d1d !important;
+    }
+
+    .opt-btn:disabled {
+      cursor: default;
+    }
+
+    /* Scorecard Styles */
+    .scorecard {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .scorecard-header {
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .scorecard-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .scorecard-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .meta-item {
+      font-size: 0.9rem;
+    }
+
+    .meta-item strong {
+      color: #334155;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .grade-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 6px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: 700;
+    }
+
+    .feedback-note {
+      background: #eff6ff;
+      border-left: 4px solid var(--accent);
+      padding: 16px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Modal Warning */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      color: #b91c1c;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .modal-body {
+      font-size: 0.95rem;
+      color: #334155;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. LOGIN SCREEN -->
+  <div id="login-screen" class="screen active">
+    <div class="login-card">
+      <div class="login-header">
+        <h1>Examination Portal</h1>
+        <div>
+          <span class="badge-info">Subject: ARABIC</span>
+          <span class="badge-info" id="login-date-badge">Date: Today</span>
+        </div>
+      </div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="student-name">Student Name *</label>
+          <input type="text" id="student-name" placeholder="Enter your full name" required autofocus />
+        </div>
+        <button type="submit" class="btn btn-primary">Start Examination</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. EXAM SCREEN -->
+  <div id="exam-screen" class="screen">
+    <nav class="exam-nav">
+      <div class="exam-nav-content">
+        <div>
+          <span class="student-badge" id="nav-student-name">Student</span>
+          <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 6px;">(ARABIC)</span>
+        </div>
+        <div class="progress-pill" id="nav-progress">Attended: 0 / 100</div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div id="questions-list"></div>
+      <button id="main-submit-btn" class="btn btn-submit">Submit Final Exam</button>
+    </div>
+  </div>
+
+  <!-- 3. RESULTS SCREEN -->
+  <div id="results-screen" class="screen">
+    <div class="container">
+      <div id="top-scorecard" class="scorecard"></div>
+      
+      <h2 style="font-size: 1.25rem; font-weight: 700; margin: 30px 0 16px; color: var(--primary);">
+        Detailed Review of Submissions
+      </h2>
+      <div id="review-questions-list"></div>
+
+      <div id="bottom-scorecard" class="scorecard" style="margin-top: 30px;"></div>
+    </div>
+  </div>
+
+  <!-- UNANSWERED WARNING MODAL -->
+  <div id="warning-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h3 class="modal-title">Unanswered Questions Warning</h3>
+      <p class="modal-body" id="modal-warning-msg">
+        You have skipped questions. Are you sure you want to finish?
+      </p>
+      <div class="modal-actions">
+        <button id="modal-cancel-btn" class="btn btn-secondary">Return to Complete</button>
+        <button id="modal-proceed-btn" class="btn" style="background: #b91c1c; color: white;">Proceed Anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* 100% ARABIC QUESTIONS AND OPTIONS DATASET (SETS A TO E IN ORDER) */
+    const questionsData = [
+      /* SET A (1 to 20) */
+      {
+        id: 1,
+        question: "أكمل بالحرف المناسب: «اشتريت هذا الكتاب ....... السوق»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'ഞാൻ ഈ പുസ്തകം അങ്ങാടിയിൽ ..... വാങ്ങി')",
+        hint: "حرف جر يدل على ابتداء الغاية المكانية (الخروج من المكان).",
+        hintMal: "(തുടക്കത്തെ സൂചിപ്പിക്കുന്ന 'നിന്ന്' എന്ന അർത്ഥത്തിലുള്ള ജർറിന്റെ അക്ഷരം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "عن", trans: "കുറിച്ച്" },
+          { letter: "B", arLetter: "ب", text: "مِنَ", trans: "നിന്ന്" },
+          { letter: "C", arLetter: "ج", text: "على", trans: "മേൽ" },
+          { letter: "D", arLetter: "د", text: "إلى", trans: "ലേക്ക്" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 2,
+        question: "الرد المناسب على «صباح الخير» هو:",
+        qMal: "('സുപ്രഭാതം' എന്നതിന് അനുയോജ്യമായ മറുപടി:)",
+        hint: "تحية الصباح المشهورة التي تقابل الخير بالنور.",
+        hintMal: "(പ്രഭാതത്തിൽ 'ഖൈർ' എന്നതിന് പകരമായി 'നൂർ' ചേർത്തു പറയുന്ന അഭിവാദ്യം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أهلا وسهلا", trans: "സ്വാഗതം" },
+          { letter: "B", arLetter: "ب", text: "وعليكم السلام", trans: "നിങ്ങളിലും സമാധാനമുണ്ടാകട്ടെ" },
+          { letter: "C", arLetter: "ج", text: "مساء النور", trans: "ശുഭ സായാഹ്നം" },
+          { letter: "D", arLetter: "د", text: "صباح النور", trans: "ശുഭ പ്രഭാതം" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 3,
+        question: "أداة الاستفهام التي نسأل بها عن الزمان هي:",
+        qMal: "(സമയത്തെക്കുറിച്ച് ചോദിക്കാൻ ഉപയോഗിക്കുന്ന ചോദ്യവാക്ക്:)",
+        hint: "تسأل بها عن وقت وقوع الفعل.",
+        hintMal: "('എപ്പോൾ' എന്ന് ചോദിക്കാൻ അറബിയിൽ ഉപയോഗിക്കുന്ന പദം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "كيف", trans: "എങ്ങനെ" },
+          { letter: "B", arLetter: "ب", text: "كم", trans: "എത്ര" },
+          { letter: "C", arLetter: "ج", text: "أين", trans: "എവിടെ" },
+          { letter: "D", arLetter: "د", text: "متى", trans: "എപ്പോൾ" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 4,
+        question: "الحرف «ك» في «أنت شجاع كالأسد» يفيد:",
+        qMal: "('നീ സിംഹത്തെപ്പോലെ ധീരനാണ്' എന്നതിലെ 'ക' എന്ന അക്ഷരം സൂചിപ്പിക്കുന്നത്:)",
+        hint: "تفيد مماثلة شيء لشيء آخر في صفة معينة.",
+        hintMal: "(ഒരു വസ്തുവിനെ മറ്റൊന്നിനോട് ഉപമിക്കാൻ ഉപയോഗിക്കുന്നത്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "العطف", trans: "യോജിപ്പിക്കൽ" },
+          { letter: "B", arLetter: "ب", text: "الترتيب", trans: "ക്രമം" },
+          { letter: "C", arLetter: "ج", text: "التشبيه", trans: "ഉപമ" },
+          { letter: "D", arLetter: "د", text: "التخيير", trans: "തിരഞ്ഞെടുക്കൽ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 5,
+        question: "الآية «يا أيها الناس إنا خلقناكم من ذكر وأنثى» من سورة:",
+        qMal: "('മനുഷ്യരേ, തീർച്ചയായും നിങ്ങളെ നാം ഒരു ആണിൽ നിന്നും പെണ്ണിൽ നിന്നും സൃഷ്ടിച്ചിരിക്കുന്നു' എന്ന സൂക്തം ഏത് സൂറത്തിലാണ്:)",
+        hint: "سورة مدنية تُعرف بسورة الأخلاق والآداب الاجتماعية.",
+        hintMal: "(സൂറത്തുൽ ഫത്ഹിന് ശേഷം വരുന്ന സാമൂഹിക മര്യാദകൾ വിവരിക്കുന്ന സൂറത്ത്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "البقرة", trans: "അൽ-ബഖറ" },
+          { letter: "B", arLetter: "ب", text: "الإسراء", trans: "അൽ-ഇസ്റാഅ്" },
+          { letter: "C", arLetter: "ج", text: "يس", trans: "യാസീൻ" },
+          { letter: "D", arLetter: "د", text: "الحجرات", trans: "അൽ-ഹുജുറാത്ത്" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 6,
+        question: "أكمل الحديث: «إن الله لا ينظر إلى صوركم وأموالكم، ولكن ينظر إلى ......»",
+        qMal: "(ഹദീസ് പൂർത്തിയാക്കുക: 'തീർച്ചയായും അല്ലാഹു നിങ്ങളുടെ രൂപങ്ങളിലേക്കോ ധനത്തിലേക്കോ നോക്കുന്നില്ല, മറിച്ച് അവൻ നോക്കുന്നത് നിങ്ങളുടെ ......')",
+        hint: "محل الإخلاص والنية والعمل الصالح الداخلي والظاهري.",
+        hintMal: "(ഹൃദയവും കർമ്മങ്ങളും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "علمكم وكلامكم", trans: "നിങ്ങളുടെ അറിവിലേക്കും സംസാരത്തിലേക്കും" },
+          { letter: "B", arLetter: "ب", text: "صلاتكم وصيامكم", trans: "നിങ്ങളുടെ നമസ്കാരത്തിലേക്കും നോമ്പിലേക്കും" },
+          { letter: "C", arLetter: "ج", text: "قلوبكم وأعمالكم", trans: "നിങ്ങളുടെ ഹൃദയങ്ങളിലേക്കും കർമ്മങ്ങളിലേക്കും" },
+          { letter: "D", arLetter: "د", text: "أنسابكم وقبائلكم", trans: "നിങ്ങളുടെ കുടുംബത്തിലേക്കും ഗോത്രങ്ങളിലേക്കും" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 7,
+        question: "كان إياس بن معاوية قاضيا في:",
+        qMal: "(ഇയാസ് ബിൻ മുആവിയ എവിടെയാണ് ന്യായാധിപനായിരുന്നത്:)",
+        hint: "مدينة عراقية تاريخية مشهورة على شط العرب.",
+        hintMal: "(ഇറാഖിലെ പ്രസിദ്ധമായ ബസ്വറ നഗരം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الكوفة", trans: "കൂഫ" },
+          { letter: "B", arLetter: "ب", text: "بغداد", trans: "ബാഗ്ദാദ്" },
+          { letter: "C", arLetter: "ج", text: "دمشق", trans: "ദമാസ്കസ്" },
+          { letter: "D", arLetter: "د", text: "البصرة", trans: "ബസ്വറ" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 8,
+        question: "ماذا نقول في يوم العيد؟",
+        qMal: "(പെരുന്നാൾ ദിനത്തിൽ നാം എന്താണ് ആശംസിക്കുന്നത്:)",
+        hint: "تهنئة سنوية عامة تعني دوام الخير في كل عام.",
+        hintMal: "('എല്ലാ വർഷവും നിങ്ങൾക്ക് നന്മ ഭവിക്കട്ടെ' എന്ന ആശംസ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "سفر مبارك", trans: "ശുഭയാത്ര" },
+          { letter: "B", arLetter: "ب", text: "حج مبرور", trans: "സ്വീകാര്യമായ ഹജ്ജ്" },
+          { letter: "C", arLetter: "ج", text: "زواج مبارك", trans: "വിവാഹാശംസകൾ" },
+          { letter: "D", arLetter: "د", text: "كل عام وأنتم بخير", trans: "എല്ലാ വർഷവും നിങ്ങൾക്ക് നന്മകൾ ഉണ്ടാകട്ടെ" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 9,
+        question: "الكلمة التي لا تدل على معنى كامل إلا مع غيرها هي:",
+        qMal: "(മറ്റൊരു വാക്കിനോട് ചേർന്നല്ലാതെ പൂർണ്ണമായ അർത്ഥം നൽകാത്ത പദം:)",
+        hint: "قسم من أقسام الكلمة مثل حروف الجر والعطف.",
+        hintMal: "(അവ്യയം / ഹർഫ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الاسم", trans: "നാമം" },
+          { letter: "B", arLetter: "ب", text: "الفعل", trans: "ക്രിയ" },
+          { letter: "C", arLetter: "ج", text: "الحرف", trans: "ഹർഫ് (അവ്യയം)" },
+          { letter: "D", arLetter: "د", text: "الجملة", trans: "വാചകം" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 10,
+        question: "أكمل بالحرف المناسب: «قرأت كتابًا ..... تغير المناخ»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'കാലാവസ്ഥാ വ്യതിയാനത്തെ ..... ഞാൻ ഒരു പുസ്തകം വായിച്ചു')",
+        hint: "حرف جر يفيد المجاوزة والحديث في موضوع معين.",
+        hintMal: "('കുറിച്ച്' എന്ന അർത്ഥം നൽകുന്ന ഹർഫ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "عن", trans: "കുറിച്ച്" },
+          { letter: "B", arLetter: "ب", text: "إلى", trans: "ലേക്ക്" },
+          { letter: "C", arLetter: "ج", text: "حتى", trans: "വരെ" },
+          { letter: "D", arLetter: "د", text: "مع", trans: "കൂടെ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 11,
+        question: "قائل الأبيات «رأيتُ الدهر مختلفًا يدور» هو:",
+        qMal: "('കാലം മാറിമറിഞ്ഞു കറങ്ങുന്നത് ഞാൻ കണ്ടു' എന്ന വരികൾ രചിച്ച കവി:)",
+        hint: "الخليفة الراشد الرابع وابن عم رسول الله صلى الله عليه وسلم.",
+        hintMal: "(നാലാം ഖലീഫയായ ഇമാം അലി ബിൻ അബീത്വാലിബ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "حافظ إبراهيم", trans: "ഹാഫിദ് ഇബ്രാഹിം" },
+          { letter: "B", arLetter: "ب", text: "الإمام علي بن أبي طالب", trans: "ഇമാം അലി ബിൻ അബീത്വാലിബ്" },
+          { letter: "C", arLetter: "ج", text: "الكريزي", trans: "അൽ-കുറൈസി" },
+          { letter: "D", arLetter: "د", text: "أحمد شوقي", trans: "അഹ്മദ് ശൗഖി" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 12,
+        question: "أكمل البيت: «الأم مدرسة إذا أعددتها أعددت .......»",
+        qMal: "(കവിതാ ശകലം പൂർത്തിയാക്കുക: 'മാതാവ് ഒരു വിദ്യാലയമാണ്, അവളെ സജ്ജമാക്കിയാൽ നീ സജ്ജമാക്കിയത് .......')",
+        hint: "أعددت مجتمعاً أصيلاً وكريماً طيب الأصول.",
+        hintMal: "(നല്ല വംശഗുണമുള്ള ഉത്തമ ജനതയെ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "روضا أورق إيراقا", trans: "തഴച്ചുവളരുന്ന പൂന്തോട്ടം" },
+          { letter: "B", arLetter: "ب", text: "شعبا طيب الأعراق", trans: "നല്ല പാരമ്പര്യമുള്ള ഒരു ജനതയെ" },
+          { letter: "C", arLetter: "ج", text: "قصورا عالية", trans: "ഉയരമുള്ള കൊട്ടാരങ്ങൾ" },
+          { letter: "D", arLetter: "د", text: "جيلا قويا سليما", trans: "ശക്തവും ആരോഗ്യവുമുള്ള തലമുറയെ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 13,
+        question: "لقب أحمد شوقي بـ:",
+        qMal: "(അഹ്മദ് ശൗഖി അറിയപ്പെടുന്ന പദവി:)",
+        hint: "لقب يعبر عن ريادته وإمارته للشعر العربي الحديث.",
+        hintMal: "('കവികളുടെ രാജകുമാരൻ' - അമീറുശ്ശുഅറാഅ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أمير الشعراء", trans: "കവികളുടെ രാജകുമാരൻ" },
+          { letter: "B", arLetter: "ب", text: "أمير المؤمنين", trans: "വിശ്വാസികളുടെ നേതാവ്" },
+          { letter: "C", arLetter: "ج", text: "شاعر النيل", trans: "നൈൽ നദിയുടെ കവി" },
+          { letter: "D", arLetter: "د", text: "سيد القضاة", trans: "ന്യായാധിപന്മാരുടെ തലവൻ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 14,
+        question: "يقول الأب لولده: «فصناعة في اليد أمان من .......»",
+        qMal: "(പിതാവ് മകനോട് പറയുന്നു: 'കൈവശമുള്ള ഒരു തൊഴിൽ ...... നിന്നുള്ള സംരക്ഷണമാണ്')",
+        hint: "الحاجة إلى الناس والعوز المالي.",
+        hintMal: "(ദാരിദ്ര്യത്തിൽ നിന്നുള്ള സംരക്ഷണം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الفقر", trans: "ദാരിദ്ര്യം" },
+          { letter: "B", arLetter: "ب", text: "الأعداء", trans: "ശത്രുക്കൾ" },
+          { letter: "C", arLetter: "ج", text: "المرض", trans: "രോഗം" },
+          { letter: "D", arLetter: "د", text: "الكسل", trans: "മടി" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 15,
+        question: "الفعل «يَكْتُبُ» فعل:",
+        qMal: "('യക്തുബു' (എഴുതുന്നു) എന്ന ക്രിയ ഏത് വിഭാഗത്തിൽ പെടുന്നു:)",
+        hint: "يدل على حدث يقع في الحاضر أو المستقبل ويبدأ بحرف المضارعة.",
+        hintMal: "(വർത്തമാനകാല ക്രിയ - ഫിഅ്ൽ മുളാരിഅ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أمر", trans: "കല്പനാക്രിയ" },
+          { letter: "B", arLetter: "ب", text: "مضارع", trans: "വർത്തമാനകാല ക്രിയ" },
+          { letter: "C", arLetter: "ج", text: "ماض", trans: "ഭൂതകാല ക്രിയ" },
+          { letter: "D", arLetter: "د", text: "نهي", trans: "വിലക്ക്" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 16,
+        question: "دخل الأعرابي في الطرفة الأولى على:",
+        qMal: "(ആദ്യ തമാശക്കഥയിൽ ഗ്രാമീണൻ ആരുടെ സന്നിധിയിലാണ് പ്രവേശിച്ചത്:)",
+        hint: "الخليفة العباسي المشهور ابن هارون الرشيد.",
+        hintMal: "(അബ്ബാസി ഖലീഫയായ മഅ്മൂൻ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "هارون الرشيد", trans: "ഹാറൂൻ റശീദ്" },
+          { letter: "B", arLetter: "ب", text: "الطبيب", trans: "വൈദ്യൻ" },
+          { letter: "C", arLetter: "ج", text: "المأمون", trans: "അൽ-മഅ്മൂൻ" },
+          { letter: "D", arLetter: "د", text: "القاضي إياس", trans: "ഖാദി ഇയാസ്" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 17,
+        question: "بم أجاب الشيخ حين قيل له: «يا شيخ أنت أحمق أم جاهل؟»",
+        qMal: "('വൃദ്ധനേ, താങ്കൾ വിഡ്ഢിയാണോ അതോ വിവരമില്ലാത്തവനാണോ?' എന്ന് ചോദിച്ചപ്പോൾ അദ്ദേഹം എന്ത് മറുപടി നൽകി:)",
+        hint: "أجاب بذكاء ليدل على أنه يقع وسط سائليه الساخرين.",
+        hintMal: "('ഞാൻ നിങ്ങൾ രണ്ടിന്റെയും ഇടയിലാണ്' എന്ന് മറുപടി നൽകി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أنا أحمق", trans: "ഞാൻ വിഡ്ഢിയാണ്" },
+          { letter: "B", arLetter: "ب", text: "أنا بينهما", trans: "ഞാൻ അവ രണ്ടിനുമിടയിലാണ്" },
+          { letter: "C", arLetter: "ج", text: "أنا عالم", trans: "ഞാൻ പണ്ഡിതനാണ്" },
+          { letter: "D", arLetter: "د", text: "أنا جاهل", trans: "ഞാൻ വിവരമില്ലാത്തവനാണ്" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 18,
+        question: "أكمل: «الوقت كالسيف، إن لم تقطعه ........»",
+        qMal: "(പഴഞ്ചൊല്ല് പൂർത്തിയാക്കുക: 'സമയം വാൾ പോലെയാണ്, നീ അതിനെ മുറിച്ചില്ലെങ്കിൽ അത് നിന്നെ ......')",
+        hint: "مثل عربي مشهور عن خطورة تضييع الوقت كالسيف الحاد.",
+        hintMal: "(അത് നിന്നെ മുറിച്ചുകളയും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "قطعك", trans: "നിന്നെ മുറിച്ചുകളയും" },
+          { letter: "B", arLetter: "ب", text: "قتلك", trans: "നിന്നെ കൊല്ലും" },
+          { letter: "C", arLetter: "ج", text: "تركك", trans: "നിന്നെ ഉപേക്ഷിക്കും" },
+          { letter: "D", arLetter: "د", text: "نفعك", trans: "നിനക്ക് ഉപകാരം ചെയ്യും" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 19,
+        question: "النعمتان اللتان مغبون فيهما كثير من الناس هما:",
+        qMal: "(ധാരാളം ആളുകൾ വഞ്ചിക്കപ്പെട്ടുപോകുന്ന രണ്ട് അനുഗ്രഹങ്ങൾ ഏതെല്ലാമാണ്:)",
+        hint: "نعمة العافية الجسدية ونعمة توفر الوقت الخالي من الشواغل.",
+        hintMal: "(ആരോഗ്യവും ഒഴിവുസമയവും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الصحة والفراغ", trans: "ആരോഗ്യവും ഒഴിവുസമയവും" },
+          { letter: "B", arLetter: "ب", text: "المال والبنون", trans: "സമ്പത്തും മക്കളും" },
+          { letter: "C", arLetter: "ج", text: "الشباب والقوة", trans: "യൗവനവും ശക്തിയും" },
+          { letter: "D", arLetter: "د", text: "العلم والمال", trans: "വിജ്ഞാനവും സമ്പത്തും" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 20,
+        question: "أكمل: «العقل السليم في .......»",
+        qMal: "(പൂർത്തിയാക്കുക: 'നല്ല ബുദ്ധി കുടികൊള്ളുന്നത് ......')",
+        hint: "حكمة شائعة تربط بين سلامة الفكر وصحة البدن.",
+        hintMal: "(ആരോഗ്യമുള്ള ശരീരത്തിൽ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "البيت السعيد", trans: "സന്തുഷ്ട ഭവനത്തിൽ" },
+          { letter: "B", arLetter: "ب", text: "الوقت الثمين", trans: "വിലപ്പെട്ട സമയത്തിൽ" },
+          { letter: "C", arLetter: "ج", text: "الجسم السليم", trans: "ആരോഗ്യമുള്ള ശരീരത്തിൽ" },
+          { letter: "D", arLetter: "د", text: "القلب السليم", trans: "ശുദ്ധമായ ഹൃദയത്തിൽ" }
+        ],
+        answer: "C"
+      },
+
+      /* SET B (21 to 40) */
+      {
+        id: 21,
+        question: "أكمل بالحرف المناسب: «ذهب الوالد ...... المسجد»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'പിതാവ് പള്ളി..... പോയി')",
+        hint: "حرف جر لانتهاء الغاية المكانية.",
+        hintMal: "('ലേക്ക്' എന്ന ലക്ഷ്യാർത്ഥത്തിൽ ഉപയോഗിക്കുന്ന ഹർഫ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "عن", trans: "കുറിച്ച്" },
+          { letter: "B", arLetter: "ب", text: "إلى", trans: "ലേക്ക്" },
+          { letter: "C", arLetter: "ج", text: "من", trans: "നിന്ന്" },
+          { letter: "D", arLetter: "د", text: "على", trans: "മേൽ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 22,
+        question: "الرد المناسب على «فرصة طيبة» هو:",
+        qMal: "('നല്ലൊരു അവസരം' (കണ്ടുമുട്ടിയതിൽ സന്തോഷം) എന്നതിന് അനുയോജ്യമായ മറുപടി:)",
+        hint: "عبارة تمني تدل على السعادة باللقاء المتبادل.",
+        hintMal: "('സന്തോഷകരമായ അവസരം' എന്ന മറുപടി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الشرف لنا", trans: "ബഹുമതി ഞങ്ങൾക്ക്" },
+          { letter: "B", arLetter: "ب", text: "شكرا لك", trans: "താങ്കൾക്ക് നന്ദി" },
+          { letter: "C", arLetter: "ج", text: "فرصة سعيدة", trans: "സന്തോഷകരമായ അവസരം" },
+          { letter: "D", arLetter: "د", text: "مساء النور", trans: "ശുഭ സായാഹ്നം" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 23,
+        question: "نستخدم أداة الاستفهام «كم» للسؤال عن:",
+        qMal: "('കം' എന്ന ചോദ്യവാക്ക് എന്തിനെക്കുറിച്ച് ചോദിക്കാനാണ് ഉപയോഗിക്കുന്നത്:)",
+        hint: "تسأل بها عن المقدار والأعداد والأسعار.",
+        hintMal: "(എണ്ണം അല്ലെങ്കിൽ വില അറിയാൻ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "العدد أو الثمن", trans: "എണ്ണം അല്ലെങ്കിൽ വില" },
+          { letter: "B", arLetter: "ب", text: "الزمان", trans: "സമയം" },
+          { letter: "C", arLetter: "ج", text: "المكان", trans: "സ്ഥലം" },
+          { letter: "D", arLetter: "د", text: "السبب", trans: "കാരണം" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 24,
+        question: "أكمل بالحرف المناسب: «ذهبت إلى السوق ....... اشتريت بعض الفواكه»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'ഞാൻ അങ്ങാടിയിലേക്ക് പോയി, ..... കുറച്ച് പഴങ്ങൾ വാങ്ങി')",
+        hint: "حرف عطف يفيد الترتيب مع التراخي في الوقت.",
+        hintMal: "('പിന്നീട് / ശേഷം' എന്ന അർത്ഥം നൽകുന്ന സംയോജകാവ്യയം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أو", trans: "അല്ലെങ്കിൽ" },
+          { letter: "B", arLetter: "ب", text: "مع", trans: "കൂടെ" },
+          { letter: "C", arLetter: "ج", text: "ثُمَّ", trans: "പിന്നീട്" },
+          { letter: "D", arLetter: "د", text: "عن", trans: "കുറിച്ച്" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 25,
+        question: "تأمر آيات سورة الإسراء (۲۳-٢٤) بالإحسان إلى:",
+        qMal: "(സൂറത്തുൽ ഇസ്റാഅ് (23-24) വചനങ്ങൾ ആർക്ക് നന്മ ചെയ്യാനാണ് കല്പിക്കുന്നത്:)",
+        hint: "الأب والأم وعظيم برهما وخفض جناح الذل لهما من الرحمة.",
+        hintMal: "(മാതാപിതാക്കൾക്ക്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الوالدين", trans: "മാതാപിതാക്കൾക്ക്" },
+          { letter: "B", arLetter: "ب", text: "الجيران", trans: "അയൽവാസികൾക്ക്" },
+          { letter: "C", arLetter: "ج", text: "اليتامى", trans: "അനാഥകൾക്ക്" },
+          { letter: "D", arLetter: "د", text: "المسافرين", trans: "യാത്രക്കാർക്ക്" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 26,
+        question: "أي مما يلي ليس من الأمور الثلاثة التي لا تنقطع بموت الإنسان؟",
+        qMal: "(മനുഷ്യന്റെ മരണശേഷവും നിലക്കാത്ത മൂന്ന് കാര്യങ്ങളിൽ പെടാത്തത് ഏത്:)",
+        hint: "الأمور الثلاثة هي: صدقة جارية، علم ينتفع به، ولد صالح يدعو له.",
+        hintMal: "(ധാരാളം സമ്പത്ത് എന്നത് ഇതിൽ പെടില്ല).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "صدقة جارية", trans: "നിലനിൽക്കുന്ന ദാനം" },
+          { letter: "B", arLetter: "ب", text: "علم ينتفع به", trans: "ഉപകാരപ്രദമായ അറിവ്" },
+          { letter: "C", arLetter: "ج", text: "ولد صالح يدعو له", trans: "പ്രാർത്ഥിക്കുന്ന സദ്‌വൃത്തനായ മകൻ" },
+          { letter: "D", arLetter: "د", text: "المال الكثير", trans: "ധാരാളം സമ്പത്ത്" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 27,
+        question: "أين أعطى الشاكي ماله للتاجر؟",
+        qMal: "(പരാതിക്കാരൻ വ്യാപാരിക്ക് തന്റെ പണം നൽകിയത് എവിടെ വെച്ചായിരുന്നു:)",
+        hint: "مكان خالٍ خارج العمران في الصحراء تحت ظل شجرة.",
+        hintMal: "(മരുഭൂമിയിലെ ഒരു മരത്തിനടുത്ത് വെച്ച്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "في المسجد", trans: "പള്ളിയിൽ വെച്ച്" },
+          { letter: "B", arLetter: "ب", text: "عند النهر", trans: "നദീതീരത്ത് വെച്ച്" },
+          { letter: "C", arLetter: "ج", text: "عند شجرة في الصحراء", trans: "മരുഭൂമിയിലെ ഒരു മരത്തിനടുത്ത് വെച്ച്" },
+          { letter: "D", arLetter: "د", text: "في السوق", trans: "അങ്ങാടിയിൽ വെച്ച്" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 28,
+        question: "أي الكلمات الآتية فعل؟",
+        qMal: "(താഴെ പറയുന്നവയിൽ ക്രിയ (ഫീഅ്ൽ) ഏതാണ്:)",
+        hint: "كلمة تدل على حدث مقترن بزمن محدد.",
+        hintMal: "('എഴുതുന്നു' എന്ന പ്രവർത്തി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "يكتب", trans: "എഴുതുന്നു" },
+          { letter: "B", arLetter: "ب", text: "فريد", trans: "ഫരീദ് (വ്യക്തിനാമം)" },
+          { letter: "C", arLetter: "ج", text: "في", trans: "ൽ (ഹർഫ്)" },
+          { letter: "D", arLetter: "د", text: "بغداد", trans: "ബാഗ്ദാദ് (സ്ഥലനാമം)" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 29,
+        question: "ماذا نقول عند التهنئة بالنجاح؟",
+        qMal: "(വിജയം ആശംസിക്കുമ്പോൾ നാം എന്താണ് പറയുന്നത്:)",
+        hint: "تحية التبريك الخاصة بالتفوق الدراسي والنجاح.",
+        hintMal: "(വിജയാശംസകൾ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "زواج مبارك", trans: "വിവാഹാശംസകൾ" },
+          { letter: "B", arLetter: "ب", text: "مبارك النجاح", trans: "വിജയാശംസകൾ" },
+          { letter: "C", arLetter: "ج", text: "عيد مبارك", trans: "പെരുന്നാൾ ആശംസകൾ" },
+          { letter: "D", arLetter: "د", text: "بالتوفيق والنجاح", trans: "വിജയവും സൗഭാഗ്യവും നേരുന്നു" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 30,
+        question: "ماذا نقول عند العودة من السفر؟",
+        qMal: "(യാത്ര കഴിഞ്ഞു തിരിച്ചെത്തുമ്പോൾ എന്ത് ആശംസയാണ് പറയുക:)",
+        hint: "حمد الله على النجاة والوصول بسلامة.",
+        hintMal: "('സുരക്ഷിതമായി തിരിച്ചെത്തിയതിൽ ദൈവത്തിന് സ്തുതി').",
+        options: [
+          { letter: "A", arLetter: "أ", text: "البقاء لله", trans: "മരണവാർത്തയിലെ അനുശോചനം" },
+          { letter: "B", arLetter: "ب", text: "حمدا لله على سلامتك", trans: "സുരക്ഷിതമായി എത്തിയതിൽ ദൈവത്തിന് സ്തുതി" },
+          { letter: "C", arLetter: "ج", text: "مبارك النجاح", trans: "വിജയാശംസകൾ" },
+          { letter: "D", arLetter: "د", text: "سفر مبارك", trans: "യാത്രാശംസകൾ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 31,
+        question: "البيت «الأم مدرسة إذا أعددتها» من شعر:",
+        qMal: "('അൽ-ഉമ്മു മദ്റസത്തുൻ...' എന്ന പ്രസിദ്ധമായ കവിത ആരുടെ രചനയാണ്:)",
+        hint: "شاعر مصري شهير لقب بشاعر النيل وعاصر أحمد شوقي.",
+        hintMal: "(കവി ഹാഫിദ് ഇബ്രാഹിം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "حافظ إبراهيم", trans: "ഹാഫിദ് ഇബ്രാഹിം" },
+          { letter: "B", arLetter: "ب", text: "أحمد شوقي", trans: "അഹ്മദ് ശൗഖി" },
+          { letter: "C", arLetter: "ج", text: "الإمام علي بن أبي طالب", trans: "ഇമാം അലി" },
+          { letter: "D", arLetter: "د", text: "أسعد الزوزني", trans: "അസ്അദ് അസ്സൗസനി" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 32,
+        question: "يُلقب حافظ إبراهيم بـ:",
+        qMal: "(ഹാഫിദ് ഇബ്രാഹിം അറിയപ്പെടുന്ന പദവി:)",
+        hint: "لقب ينسبه إلى النهر العظيم في وطنه مصر.",
+        hintMal: "('നൈലിന്റെ കവി' - ശാഇറുന്നീൽ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أمير الشعراء", trans: "കവികളുടെ രാജകുമാരൻ" },
+          { letter: "B", arLetter: "ب", text: "أمير المؤمنين", trans: "വിശ്വാസികളുടെ നേതാവ്" },
+          { letter: "C", arLetter: "ج", text: "قاضي البصرة", trans: "ബസ്വറയിലെ ന്യായാധിപൻ" },
+          { letter: "D", arLetter: "د", text: "شاعر النيل", trans: "നൈൽ നദിയുടെ കവി" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 33,
+        question: "ينصحنا الكريزي في أبياته بـ:",
+        qMal: "(അൽ-കുറൈസി തന്റെ കവിതയിലൂടെ നമ്മെ ഉപദേശിക്കുന്നത് എന്തിനാണ്:)",
+        hint: "خلق حميد يقابل الكبر والغرور في المشي والتعامل مع الناس.",
+        hintMal: "(വിനയം പുലർത്താൻ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الكرم", trans: "ഔദാര്യം" },
+          { letter: "B", arLetter: "ب", text: "الشجاعة في الحرب", trans: "യുദ്ധത്തിലെ വീര്യം" },
+          { letter: "C", arLetter: "ج", text: "حب الوطن", trans: "ദേശസ്നേഹം" },
+          { letter: "D", arLetter: "د", text: "التواضع", trans: "വിനയം" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 34,
+        question: "بالمال الوافر تستطيع أن تشتري أحسن الغذاء، ولكنك لا تستطيع أن تشتري:",
+        qMal: "(ധാരാളം പണമുണ്ടെങ്കിൽ നല്ല ഭക്ഷണം വാങ്ങാം, എന്നാൽ നിങ്ങൾക്ക് വാങ്ങാൻ കഴിയാത്തത് എന്താണ്:)",
+        hint: "الشهية والرغبة الصحية في تناوله والاستمتاع به.",
+        hintMal: "(ഭക്ഷണത്തോടുള്ള താത്പര്യം / വിശപ്പ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "القصور", trans: "കൊട്ടാരങ്ങൾ" },
+          { letter: "B", arLetter: "ب", text: "الرغبة في الغذاء", trans: "ഭക്ഷണത്തോടുള്ള ആഗ്രഹം/വിശപ്പ്" },
+          { letter: "C", arLetter: "ج", text: "أندر الدواء", trans: "അപൂർവ മരുന്നുകൾ" },
+          { letter: "D", arLetter: "د", text: "الأتباع", trans: "പിന്തുടരുന്നവർ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 35,
+        question: "«لا تَكْتُب» فعل:",
+        qMal: "('ലാ തക്തുബ്' (എഴുതരുത്) എന്നത് ഏത് ക്രിയാരൂപമാണ്:)",
+        hint: "أسلوب طلب الكف عن الفعل باستخدام لا الناهية الجازمة.",
+        hintMal: "(വിലക്ക് ക്രിയ - നഹ്‌യ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "مضارع", trans: "വർത്തമാനകാല ക്രിയ" },
+          { letter: "B", arLetter: "ب", text: "أمر", trans: "കല്പനാക്രിയ" },
+          { letter: "C", arLetter: "ج", text: "نهي", trans: "വിലക്ക് ക്രിയ" },
+          { letter: "D", arLetter: "د", text: "ماض", trans: "ഭൂതകാല ക്രിയ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 36,
+        question: "أراد الأعرابي في الطرفة الأولى أن:",
+        qMal: "(ആദ്യ തമാശക്കഥയിൽ ഗ്രാമീണൻ എന്താണ് ചെയ്യാൻ ഉദ്ദേശിച്ചത്:)",
+        hint: "أداء الركن الخامس من أركان الإسلام وزيارة بيت الله الحرام.",
+        hintMal: "(ഹജ്ജ് നിർവഹിക്കാൻ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "يشتري خبرا", trans: "വാർത്ത വാങ്ങാൻ" },
+          { letter: "B", arLetter: "ب", text: "يصبح قاضيا", trans: "ന്യായാധിപനാകാൻ" },
+          { letter: "C", arLetter: "ج", text: "يزور أهله", trans: "കുടുംബത്തെ സന്ദർശിക്കാൻ" },
+          { letter: "D", arLetter: "د", text: "يحج", trans: "ഹജ്ജ് ചെയ്യാൻ" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 37,
+        question: "في طرفة «معرفة قديمة» أشار الأعرابي إلى:",
+        qMal: "('പഴയ പരിചയം' എന്ന ഫലിതത്തിൽ ഗ്രാമീണൻ എന്തിലേക്കാണ് വിരൽ ചൂണ്ടിയത്:)",
+        hint: "طعام يابس مصنوع من القمح والدقيق كان يابساً للغاية.",
+        hintMal: "(റൊട്ടിയിലേക്ക്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الخبز", trans: "റൊട്ടി" },
+          { letter: "B", arLetter: "ب", text: "صديق قديم", trans: "പഴയ സുഹൃത്ത്" },
+          { letter: "C", arLetter: "ج", text: "صاحب البيت", trans: "വീട്ടുടമ" },
+          { letter: "D", arLetter: "د", text: "الباب", trans: "വാതിൽ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 38,
+        question: "الصحة كنز لا يفهم قيمته إلا:",
+        qMal: "(ആരോഗ്യം ഒരു നിധിയാണ്, അതിന്റെ മൂല്യം ആർക്കാണ് തിരിച്ചറിയാൻ കഴിയുക:)",
+        hint: "من ابتلي بالمرض وفقد هذه النعمة الكبرى.",
+        hintMal: "(അത് നഷ്ടപ്പെട്ടവർക്ക് മാത്രം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الشباب", trans: "യുവാക്കൾ" },
+          { letter: "B", arLetter: "ب", text: "مَن حُرِمَ منه", trans: "അത് നഷ്ടപ്പെട്ടവർ" },
+          { letter: "C", arLetter: "ج", text: "الأطباء", trans: "ഡോക്ടർമാർ" },
+          { letter: "D", arLetter: "د", text: "الأغنياء", trans: "സമ്പന്നർ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 39,
+        question: "أكمل الآية: «ولا تلقوا بأيديكم إلى ........»",
+        qMal: "(ഖുർആൻ വാക്യം പൂർത്തിയാക്കുക: 'നിങ്ങളുടെ കൈകളെത്തന്നെ നിങ്ങൾ ..... ലേക്ക് തള്ളിയിടരുത്')",
+        hint: "الهلاك والمخاطر المهلكة للنفس والبدن.",
+        hintMal: "(നാശത്തിലേക്ക് - തഹ്‌ലുകഃ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الفقر", trans: "ദാരിദ്ര്യം" },
+          { letter: "B", arLetter: "ب", text: "البحر", trans: "കടൽ" },
+          { letter: "C", arLetter: "ج", text: "التهلكة", trans: "നാശം" },
+          { letter: "D", arLetter: "د", text: "النار", trans: "തീ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 40,
+        question: "موضوع أبيات أسعد الزوزني هو:",
+        qMal: "(അസ്അദ് അസ്സൗസനിയുടെ കവിതാ ശകലങ്ങളുടെ വിഷയം എന്താണ്:)",
+        hint: "كيف يخلد الإنسان ذكراه وسيرته بعد رحيله عن الدنيا بأفعاله.",
+        hintMal: "(മരണശേഷമുള്ള സൽപ്പേരും ഓർമ്മയും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "قيمة الأم", trans: "മാതാവിന്റെ മഹത്വം" },
+          { letter: "B", arLetter: "ب", text: "ذكر المرء بعد موته", trans: "മരണശേഷമുള്ള മനുഷ്യന്റെ സൽപ്പേര്" },
+          { letter: "C", arLetter: "ج", text: "التواضع", trans: "വിനയം" },
+          { letter: "D", arLetter: "د", text: "شكر الله في كل وقت", trans: "എല്ലാ സമയത്തും അല്ലാഹുവിന് നന്ദി ചെയ്യൽ" }
+        ],
+        answer: "D"
+      },
+
+      /* SET C (41 to 60) */
+      {
+        id: 41,
+        question: "أكمل بالحرف المناسب: «جلس الولد ...... الكرسي»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'കുട്ടി കസേരയ്ക്ക് ..... ഇരുന്നു')",
+        hint: "حرف جر يفيد الاستعلاء والفوقية.",
+        hintMal: "('മേൽ' എന്ന അർത്ഥം നൽകുന്ന ഹർഫ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "من", trans: "നിന്ന്" },
+          { letter: "B", arLetter: "ب", text: "عن", trans: "കുറിച്ച്" },
+          { letter: "C", arLetter: "ج", text: "على", trans: "മേൽ" },
+          { letter: "D", arLetter: "د", text: "إلى", trans: "ലേക്ക്" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 42,
+        question: "الرد المناسب على «تشرفت بك» هو:",
+        qMal: "('താങ്കളെ പരിചയപ്പെട്ടതിൽ അഭിമാനിക്കുന്നു' എന്നതിന് മറുപടി:)",
+        hint: "رد يدل على تبادل الشرف والتقدير.",
+        hintMal: "('ബഹുമതി ഞങ്ങൾക്ക് ലഭിച്ചതാണ്' എന്ന മറുപടി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "مرحبا بك", trans: "സ്വാഗതം" },
+          { letter: "B", arLetter: "ب", text: "وأنا أيضا", trans: "ഞാനും അതെ" },
+          { letter: "C", arLetter: "ج", text: "فرصة سعيدة", trans: "സന്തോഷകരമായ അവസരം" },
+          { letter: "D", arLetter: "د", text: "الشرف لنا", trans: "ബഹുമതി ഞങ്ങൾക്ക്" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 43,
+        question: "نستخدم أداة الاستفهام «لماذا» للسؤال عن:",
+        qMal: "('ലിമാദാ' (എന്തുകൊണ്ട്) എന്ന ചോദ്യവാക്ക് എന്തിനെക്കുറിച്ച് ചോദിക്കാൻ ഉപയോഗിക്കുന്നു:)",
+        hint: "تسأل بها عن العلة والدافع لفعل الشيء.",
+        hintMal: "(കാരണം ചോദിക്കാൻ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "السبب", trans: "കാരണം" },
+          { letter: "B", arLetter: "ب", text: "العدد", trans: "എണ്ണം" },
+          { letter: "C", arLetter: "ج", text: "الزمان", trans: "സമയം" },
+          { letter: "D", arLetter: "د", text: "المكان", trans: "സ്ഥലം" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 44,
+        question: "أكمل بالحرف المناسب: «هل تريد شايا ...... قهوة ؟»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'നിങ്ങൾക്ക് ചായയാണോ ..... കാപ്പിയാണോ വേണ്ടത്?')",
+        hint: "حرف عطف يفيد الشك أو التخيير بين أمرين.",
+        hintMal: "('അതോ / അല്ലെങ്കിൽ' എന്ന തിരഞ്ഞെടുപ്പ് അർത്ഥം നൽകുന്ന വാക്ക്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "حتى", trans: "വരെ" },
+          { letter: "B", arLetter: "ب", text: "أو", trans: "അല്ലെങ്കിൽ" },
+          { letter: "C", arLetter: "ج", text: "من", trans: "നിന്ന്" },
+          { letter: "D", arLetter: "د", text: "في", trans: "ൽ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 45,
+        question: "أكمل الآية: «إن أكرمكم عند الله .......»",
+        qMal: "(ഖുർആൻ വാക്യം പൂർത്തിയാക്കുക: 'നിശ്ചയം അല്ലാഹുവിന്റെ അടുക്കൽ നിങ്ങളിൽ ഏറ്റവും ആദരണീയൻ ......')",
+        hint: "أكثركم تقوى وخوفاً من الله وطاعة له.",
+        hintMal: "(നിങ്ങളിൽ ഏറ്റവും കൂടുതൽ തഖ്‌വ (ഭക്തി) ഉള്ളവനാണ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أغناكم", trans: "നിങ്ങളിൽ ധനികൻ" },
+          { letter: "B", arLetter: "ب", text: "أتقاكم", trans: "നിങ്ങളിൽ ഭയഭക്തിയുള്ളവൻ" },
+          { letter: "C", arLetter: "ج", text: "أعلمكم", trans: "നിങ്ങളിൽ അറിവുള്ളവൻ" },
+          { letter: "D", arLetter: "د", text: "أقواكم", trans: "നിങ്ങളിൽ ശക്തൻ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 46,
+        question: "ما المراد بقوله تعالى: «فلا تقل لهما أف ولا تنهرهما»؟",
+        qMal: "('അവരോട് (മാതാപിതാക്കളോട്) ഛെ എന്ന് പോലും പറയരുത്, അവരോട് കയർക്കരുത്' എന്നതിന്റെ വിവക്ഷ:)",
+        hint: "عدم إظهار التضجر أو الغضب من الوالدين وبرهما والتلطف معهما.",
+        hintMal: "(മാതാപിതാക്കളോട് കോപിക്കരുതെന്നും ചീത്ത വാക്കുകൾ പറയരുതെന്നും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أن نتصدق عن الوالدين", trans: "മാതാപിതാക്കൾക്കായി ദാനം ചെയ്യുക" },
+          { letter: "B", arLetter: "ب", text: "أن نطيع المعلمين", trans: "അധ്യാപകരെ അനുസരിക്കുക" },
+          { letter: "C", arLetter: "ج", text: "أن نسافر مع الوالدين", trans: "മാതാപിതാക്കളോടൊപ്പം യാത്ര ചെയ്യുക" },
+          { letter: "D", arLetter: "د", text: "ألا نغضب على الوالدين ولا نكلمهما بكلام سيئ", trans: "മാതാപിതാക്കളോട് ദേഷ്യപ്പെടാതിരിക്കുകയും മോശം വാക്ക് പറയാതിരിക്കുകയും ചെയ്യുക" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 47,
+        question: "الآية «ولقد كرمنا بني آدم» تدل على:",
+        qMal: "('തീർച്ചയായും നാം ആദം സന്തതികളെ ആദരിച്ചിരിക്കുന്നു' എന്ന സൂക്തം എന്തിനെയാണ് സൂചിപ്പിക്കുന്നത്:)",
+        hint: "تشريف الله لخلق الإنسان ومكانته العالية.",
+        hintMal: "(മനുഷ്യന്റെ അന്തസ്സും മഹത്വവും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "بر الوالدين", trans: "മാതാപിതാക്കളോടുള്ള നന്മ" },
+          { letter: "B", arLetter: "ب", text: "فضل التجارة", trans: "വ്യാപാരത്തിന്റെ ശ്രേഷ്ഠത" },
+          { letter: "C", arLetter: "ج", text: "الصدقة الجارية", trans: "നിലനിൽക്കുന്ന ദാനം" },
+          { letter: "D", arLetter: "د", text: "كرامة الإنسان", trans: "മനുഷ്യന്റെ അന്തസ്സ്" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 48,
+        question: "إلى أين أرسل القاضي إياس الشاكي؟",
+        qMal: "(ഖാദി ഇയാസ് പരാതിക്കാരനെ എങ്ങോട്ടാണ് പറഞ്ഞയച്ചത്:)",
+        hint: "الموضع الذي سلم فيه الأمانة في الصحراء ليتذكر أو يأتي بعلامة.",
+        hintMal: "(പണം കൈമാറിയ മരത്തിനടുത്തേക്ക്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "إلى السوق", trans: "അങ്ങാടിയിലേക്ക്" },
+          { letter: "B", arLetter: "ب", text: "إلى الشجرة", trans: "മരത്തിനടുത്തേക്ക്" },
+          { letter: "C", arLetter: "ج", text: "إلى بيت التاجر", trans: "വ്യാപാരിയുടെ വീട്ടിലേക്ക്" },
+          { letter: "D", arLetter: "د", text: "إلى الشرطة", trans: "പോലീസിന്റെ അടുത്തേക്ക്" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 49,
+        question: "ماذا نقول عند فعل معروف أو مساعدة؟",
+        qMal: "(നമുക്കൊരു ഉപകാരം ലഭിക്കുമ്പോൾ നാം എന്ത് പ്രാർത്ഥനയാണ് പറയുക:)",
+        hint: "دعاء للشخص بأن يجزيه الله خيراً وإحساناً.",
+        hintMal: "('അല്ലാഹു നിങ്ങൾക്ക് ഉത്തമ പ്രതിഫലം നൽകട്ടെ').",
+        options: [
+          { letter: "A", arLetter: "أ", text: "سفر مبارك", trans: "ശുഭയാത്ര" },
+          { letter: "B", arLetter: "ب", text: "عيد مبارك", trans: "പെരുന്നാൾ ആശംസകൾ" },
+          { letter: "C", arLetter: "ج", text: "البقاء لله", trans: "അനുശോചനം" },
+          { letter: "D", arLetter: "د", text: "جزاك الله خيرا", trans: "അല്ലാഹു നിങ്ങൾക്ക് ഉത്തമ പ്രതിഫലം നൽകട്ടെ" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 50,
+        question: "ماذا نقول عند التهنئة بالزواج؟",
+        qMal: "(വിവാഹത്തിന് ആശംസ അർപ്പിക്കുമ്പോൾ എന്താണ് പറയുന്നത്:)",
+        hint: "الدعاء للعروسين بالبركة في زواجهما.",
+        hintMal: "(വിവാഹാശംസകൾ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "حج مبرور", trans: "സ്വീകാര്യമായ ഹജ്ജ്" },
+          { letter: "B", arLetter: "ب", text: "زواج مبارك", trans: "വിവാഹാശംസകൾ" },
+          { letter: "C", arLetter: "ج", text: "حمدا لله على سلامتك", trans: "സുഖവിവരം അറിയിക്കൽ" },
+          { letter: "D", arLetter: "د", text: "بالتوفيق والنجاح", trans: "വിജയാശംസകൾ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 51,
+        question: "المراد من «فلم تبق الملوك ولا القصور» أن:",
+        qMal: "('രാജാക്കന്മാരോ കൊട്ടാരങ്ങളോ അവശേഷിച്ചില്ല' എന്നതിന്റെ വിവക്ഷ:)",
+        hint: "كل ما في الدنيا يزول ويفنى ولا دوام لملك.",
+        hintMal: "(ഈ ലോകം നശിക്കുന്നതാണ്, ഇവിടെ ഒന്നും ശാശ്വതമല്ല).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الدنيا زائلة ولا شيء فيها يبقى", trans: "ഈ ലോകം നശിക്കുന്നതാണ്, യാതൊന്നും ശാശ്വതമല്ല" },
+          { letter: "B", arLetter: "ب", text: "الملوك باقون دائما", trans: "രാജാക്കന്മാർ എപ്പോഴും അവശേഷിക്കും" },
+          { letter: "C", arLetter: "ج", text: "بناء القصور واجب", trans: "കൊട്ടാരങ്ങൾ നിർമ്മിക്കൽ നിർബന്ധമാണ്" },
+          { letter: "D", arLetter: "د", text: "الحزن يدوم أبدا", trans: "ദുഃഖം എന്നെന്നും നിലനിൽക്കും" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 52,
+        question: "أكمل البيت: «ولا تمش فوق الأرض إلا تواضعا فكم تحتها قوم هم منك .......»",
+        qMal: "(കവിതാ ശകലം പൂർത്തിയാക്കുക: 'ഭൂമിയിലൂടെ വിനയത്തോടെയല്ലാതെ നടക്കരുത്, അതിന്റെ അടിയിൽ നിന്നെക്കാൾ ..... ആളുകൾ ഉണ്ട്')",
+        hint: "أعلى مكانة وشرفاً ورفعة منك كانوا في الدنيا وصاروا في التراب.",
+        hintMal: "(ഉയർന്ന പദവിയുള്ളവർ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أصغر", trans: "ചെറിയവർ" },
+          { letter: "B", arLetter: "ب", text: "أضعف", trans: "ദുർബലർ" },
+          { letter: "C", arLetter: "ج", text: "أرفع", trans: "ഉയർന്നവർ" },
+          { letter: "D", arLetter: "د", text: "أفقر", trans: "ദരിദ്രർ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 53,
+        question: "يقول أحمد شوقي إن المرء يذكر بعد موته بـ:",
+        qMal: "(മരണശേഷം മനുഷ്യൻ സ്മരിക്കപ്പെടുന്നത് എന്തിലൂടെയാണെന്നാണ് അഹ്മദ് ശൗഖി പറയുന്നത്:)",
+        hint: "صنائع المعروف والفضائل والآثار الطيبة التي تركها.",
+        hintMal: "(നല്ല സൽപ്രവൃത്തികളിലൂടെ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "المال", trans: "സമ്പത്ത്" },
+          { letter: "B", arLetter: "ب", text: "الأولاد فقط", trans: "മക്കൾ മാത്രം" },
+          { letter: "C", arLetter: "ج", text: "الجمائل (الأعمال الحسنة)", trans: "നന്മകൾ (സൽപ്രവൃത്തികൾ)" },
+          { letter: "D", arLetter: "د", text: "القصور", trans: "കൊട്ടാരങ്ങൾ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 54,
+        question: "الأمور الثلاثة التي أوصى بها الأب ولده هي:",
+        qMal: "(പിതാവ് മകന് നൽകിയ മൂന്ന് ഉപദേശങ്ങൾ എന്തൊക്കെയാണ്:)",
+        hint: "تعلم حرفة، العناية بالصحة، التمسك بالأمانة وحسن السيرة.",
+        hintMal: "(തൊഴിൽ, ആരോഗ്യം, വിശ്വസ്തതയും സൽപ്പേരും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الصناعة والصحة والأمانة وحسن السمعة", trans: "തൊഴിൽ, ആരോഗ്യം, അമാനത്തും സൽപ്പേരും" },
+          { letter: "B", arLetter: "ب", text: "الغذاء والدواء والأتباع", trans: "ഭക്ഷണം, മരുന്ന്, അനുയായികൾ" },
+          { letter: "C", arLetter: "ج", text: "المال والقصور والضياع", trans: "പണം, കൊട്ടാരങ്ങൾ, കൃഷിയിടങ്ങൾ" },
+          { letter: "D", arLetter: "د", text: "السفر والتجارة والدراسة", trans: "യാത്ര, വ്യാപാരം, പഠനം" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 55,
+        question: "الفعل «كَتَبَ» فعل:",
+        qMal: "('കതബ' (എഴുതി) എന്നത് ഏത് ക്രിയയാണ്:)",
+        hint: "فعل دل على حدث وقع وانتهى في الزمن الماضي.",
+        hintMal: "(ഭൂതകാല ക്രിയ - ഫിഅ്ൽ മാളി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "ماض", trans: "ഭൂതകാല ക്രിയ" },
+          { letter: "B", arLetter: "ب", text: "أمر", trans: "കല്പനാക്രിയ" },
+          { letter: "C", arLetter: "ج", text: "مضارع", trans: "വർത്തമാനകാല ക്രിയ" },
+          { letter: "D", arLetter: "د", text: "نهي", trans: "വിലക്ക്" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 56,
+        question: "قال الأعرابي عن أهل البلدة إنهم:",
+        qMal: "(നാട്ടുകാരെക്കുറിച്ച് ഗ്രാമീണൻ പറഞ്ഞത് എന്താണ്:)",
+        hint: "عبارة استنكار طريفة حيث ربطوا الحجارة وأطلقوا الكلاب.",
+        hintMal: "(കല്ലുകൾ കെട്ടിയിടുകയും പട്ടികളെ അഴിച്ചുവിടുകയും ചെയ്യുന്നു).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "يقيدون الحجارة ويطلقون الكلاب", trans: "കല്ലുകൾ കെട്ടിയിടുകയും പട്ടികളെ അഴിച്ചുവിടുകയും ചെയ്യുന്നു" },
+          { letter: "B", arLetter: "ب", text: "يرحبون بكل غريب", trans: "എല്ലാ അപരിചിതരെയും സ്വാഗതം ചെയ്യുന്നു" },
+          { letter: "C", arLetter: "ج", text: "يطعمون الكلاب ويجوعون الضيوف", trans: "പട്ടികൾക്ക് തീറ്റ നൽകുകയും അതിഥികളെ പട്ടിണിക്കിടുകയും ചെയ്യുന്നു" },
+          { letter: "D", arLetter: "د", text: "يبنون القصور من الحجارة", trans: "കല്ലുകൊണ്ട് കൊട്ടാരങ്ങൾ പണിയുന്നു" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 57,
+        question: "لماذا دعا الطبيب بكحل ليكحل الرجل؟",
+        qMal: "(വയറുവേദനിച്ച മനുഷ്യന് കണ്ണിലെഴുതുന്ന സുറുമ കൊണ്ടുവരാൻ വൈദ്യൻ ആവശ്യപ്പെട്ടത് എന്തുകൊണ്ട്:)",
+        hint: "حتى يرى الخبز المحروق فيميزه ولا يأكله مرة ثانية.",
+        hintMal: "(കരിഞ്ഞ ഭക്ഷണം കണ്ട് ഒഴിവാക്കാൻ കാഴ്ച കിട്ടുന്നതിനുവേണ്ടി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "لأنه لم يكن عنده دواء آخر", trans: "മറ്റ് മരുന്നുകൾ ഇല്ലാത്തതിനാൽ" },
+          { letter: "B", arLetter: "ب", text: "ليعالج بطنه", trans: "വയറ് ചികിത്സിക്കാൻ" },
+          { letter: "C", arLetter: "ج", text: "ليبصر المحترق فلا يأكله", trans: "കരിഞ്ഞ റൊട്ടി വ്യക്തമായി കണ്ട് തിന്നാതിരിക്കാൻ" },
+          { letter: "D", arLetter: "د", text: "لأن عينيه مريضتان", trans: "കണ്ണുകൾക്ക് അസുഖമായതിനാൽ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 58,
+        question: "من صفات الوقت أنه:",
+        qMal: "(സമയത്തിന്റെ സവിശേഷതകളിൽ പെട്ടത്:)",
+        hint: "لا يمكن شراؤه بالأموال ولا استعارته من أحد إذا مضى.",
+        hintMal: "(വാങ്ങാനോ വിൽക്കാനോ കടംവാങ്ങാനോ സാധിക്കില്ല).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "يعود إذا انقضى", trans: "കഴിഞ്ഞുപോയാൽ തിരിച്ചുവരും" },
+          { letter: "B", arLetter: "ب", text: "لا يُباع ولا يُشترى ولا يُستعار", trans: "വിൽക്കാനോ വാങ്ങാനോ കടം വാങ്ങാനോ കഴിയില്ല" },
+          { letter: "C", arLetter: "ج", text: "يشترى بالمال", trans: "പണം കൊടുത്തു വാങ്ങാം" },
+          { letter: "D", arLetter: "د", text: "يُستعار من الآخرين", trans: "മറ്റുള്ളവരിൽ നിന്ന് കടമെടുക്കാം" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 59,
+        question: "تدعو المقالة إلى الالتزام بـ:",
+        qMal: "(ലേഖനം എന്ത് ശീലിക്കാനാണ് നമ്മോട് ആവശ്യപ്പെടുന്നത്:)",
+        hint: "عادة صحية ترتكز على النوم المبكر والصحو مع الصباح الباكر.",
+        hintMal: "(നേരത്തെ ഉറങ്ങുകയും നേരത്തെ ഉണരുകയും ചെയ്യുക).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "ترك الطعام", trans: "ഭക്ഷണം ഉപേക്ഷിക്കുക" },
+          { letter: "B", arLetter: "ب", text: "ترك العمل", trans: "ജോലി ഉപേക്ഷിക്കുക" },
+          { letter: "C", arLetter: "ج", text: "النوم الباكر والاستيقاظ الباكر", trans: "നേരത്തെ ഉറങ്ങലും നേരത്തെ ഉണരലും" },
+          { letter: "D", arLetter: "د", text: "السهر الطويل", trans: "വൈകി ഉറങ്ങൽ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 60,
+        question: "جمع «قصر» هو:",
+        qMal: "('ഖസ്ർ' (കൊട്ടാരം) എന്നതിന്റെ ബഹുവചനം:)",
+        hint: "جمع تكسير يبدأ بحرف القاف وينتهي بالراء على وزن فُعُول.",
+        hintMal: "(ഖുസ്വൂർ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "قصار", trans: "ഖിസാർ" },
+          { letter: "B", arLetter: "ب", text: "قصرات", trans: "ഖസ്റാത്ത്" },
+          { letter: "C", arLetter: "ج", text: "أقصار", trans: "അഖ്സാർ" },
+          { letter: "D", arLetter: "د", text: "قصور", trans: "ഖുസ്വൂർ (കൊട്ടാരങ്ങൾ)" }
+        ],
+        answer: "D"
+      },
+
+      /* SET D (61 to 80) */
+      {
+        id: 61,
+        question: "أكمل بالحرف المناسب: «سأنتظرك هنا ....... المساء»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'വൈകുന്നേരം ..... ഞാൻ നിന്നെ ഇവിടെ കാത്തിരിക്കും')",
+        hint: "حرف جر وانتهاء غاية زمانية.",
+        hintMal: "('വരെ' എന്ന അർത്ഥത്തിൽ സമയത്തിന്റെ പരിധി സൂചിപ്പിക്കുന്ന ഹർഫ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "حتى", trans: "വരെ" },
+          { letter: "B", arLetter: "ب", text: "عن", trans: "കുറിച്ച്" },
+          { letter: "C", arLetter: "ج", text: "مع", trans: "കൂടെ" },
+          { letter: "D", arLetter: "د", text: "على", trans: "മേൽ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 62,
+        question: "الرد المناسب على «مع السلامة» هو:",
+        qMal: "('സലާމത്തോടെ യാത്രയാവുക' എന്ന യാത്രാമൊഴിയുടെ അനുയോജ്യമായ മറുപടി:)",
+        hint: "دعاء للمسافر بأن يكون في رعاية الله وحفظه حتى اللقاء.",
+        hintMal: "('ദൈവത്തിന്റെ സംരക്ഷണത്തിൽ / വീണ്ടും കാണാം').",
+        options: [
+          { letter: "A", arLetter: "أ", text: "وعليكم السلام", trans: "നിങ്ങളിലും സമാധാനമുണ്ടാകട്ടെ" },
+          { letter: "B", arLetter: "ب", text: "مرحبا بك", trans: "സ്വാഗതം" },
+          { letter: "C", arLetter: "ج", text: "في أمان الله / إلى اللقاء", trans: "അല്ലാഹുവിന്റെ കാവലിൽ / വീണ്ടും കാണാം" },
+          { letter: "D", arLetter: "د", text: "صباح النور", trans: "ശുഭ പ്രഭാതം" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 63,
+        question: "نستخدم أداة الاستفهام «أين» للسؤال عن:",
+        qMal: "('ഐന' (എവിടെ) എന്ന ചോദ്യവാക്ക് എന്തിനെക്കുറിച്ച് ചോദിക്കാൻ ഉപയോഗിക്കുന്നു:)",
+        hint: "تستفهم بها عن الموضع والمحل الجغرافي.",
+        hintMal: "(സ്ഥലത്തെക്കുറിച്ച് ചോദിക്കാൻ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "العدد", trans: "എണ്ണം" },
+          { letter: "B", arLetter: "ب", text: "المكان", trans: "സ്ഥലം" },
+          { letter: "C", arLetter: "ج", text: "الحال", trans: "അവസ്ഥ" },
+          { letter: "D", arLetter: "د", text: "الزمان", trans: "സമയം" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 64,
+        question: "الفاء في «الوزير دخل فجلس» تفيد:",
+        qMal: "('മന്ത്രി പ്രവേശിച്ചു, ഉടൻ ഇരുന്നു' എന്നതിലെ 'ഫ' അക്ഷരം സൂചിപ്പിക്കുന്നത്:)",
+        hint: "حرف عطف يفيد التعاقب المباشر دون مهلة زمنية طويلة.",
+        hintMal: "(ഉടൻ തന്നെയുള്ള തുടർച്ചയായ ക്രമം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "التشبيه", trans: "ഉപമ" },
+          { letter: "B", arLetter: "ب", text: "التخيير", trans: "തിരഞ്ഞെടുക്കൽ" },
+          { letter: "C", arLetter: "ج", text: "الاستفهام", trans: "ചോദ്യം" },
+          { letter: "D", arLetter: "د", text: "الترتيب والتعقيب", trans: "തുടർച്ചയായ ക്രമം" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 65,
+        question: "سميت سورة الإسراء بهذا الاسم نسبة إلى:",
+        qMal: "(സൂറത്തുൽ ഇസ്റാഇന് ആ പേര് ലഭിച്ചത് എന്തുമായി ബന്ധപ്പെട്ടാണ്:)",
+        hint: "معجزة سريان النبي صلى الله عليه وسلم من المسجد الحرام إلى المسجد الأقصى ليلاً.",
+        hintMal: "(നബിയുടെ മക്കയിൽ നിന്നുള്ള രാപ്രയാണം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "فتح مكة", trans: "മക്കാ വിജയം" },
+          { letter: "B", arLetter: "ب", text: "غزوة بدر", trans: "ബദ്ർ യുദ്ധം" },
+          { letter: "C", arLetter: "ج", text: "الهجرة إلى المدينة", trans: "മദീനയിലേക്കുള്ള പലായനം" },
+          { letter: "D", arLetter: "د", text: "رحلة النبي ليلا من مكة إلى القدس", trans: "നബിയുടെ മക്കയിൽ നിന്ന് ഖുദ്സിലേക്കുള്ള രാപ്രയാണം" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 66,
+        question: "أكمل الآية: «وقل رب ارحمهما كما .......»",
+        qMal: "(ഖുർആൻ വാക്യം പൂർത്തിയാക്കുക: 'നാഥാ, അവർ എന്നെ ചെറുപ്പത്തിൽ ...... പോലെ അവരോട് നീ കരുണ കാണിക്കേണമേ')",
+        hint: "العناية والتربية والرعاية في سن الطفولة والصغر.",
+        hintMal: "(ചെറുപ്പത്തിൽ എന്നെ പോറ്റി വളർത്തിയതുപോലെ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "ربياني صغيرا", trans: "ചെറുപ്പത്തിൽ എന്നെ പോറ്റി വളർത്തിയതുപോലെ" },
+          { letter: "B", arLetter: "ب", text: "أحسنا إلي", trans: "എനിക്ക് നന്മ ചെയ്തതുപോലെ" },
+          { letter: "C", arLetter: "ج", text: "علماني كثيرا", trans: "എന്നെ ഒരുപാട് പഠിപ്പിച്ചതുപോലെ" },
+          { letter: "D", arLetter: "د", text: "أطعماني جائعا", trans: "വിശന്നപ്പോൾ ഭക്ഷണം തന്നതുപോലെ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 67,
+        question: "كيف عرف القاضي إياس أن التاجر خائن؟",
+        qMal: "(വ്യാപാരി വഞ്ചകനാണെന്ന് ഖാദി ഇയാസ് എങ്ങനെയാണ് മനസ്സിലാക്കിയത്:)",
+        hint: "فطنته حين سأله عن الشجرة فقال إنها بعيدة، مما أثبت معرفته بمكانها.",
+        hintMal: "(മരം വളരെ ദൂരെയാണെന്ന് പറഞ്ഞപ്പോൾ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أتى الشاكي بدليل", trans: "പരാതിക്കാരൻ തെളിവ് ഹാജരാക്കി" },
+          { letter: "B", arLetter: "ب", text: "وجد المال في بيته", trans: "വീട്ടിൽ നിന്ന് പണം കണ്ടെത്തി" },
+          { letter: "C", arLetter: "ج", text: "لما قال عن الشجرة: «إنها بعيدة»", trans: "'ആ മരം വളരെ ദൂരെയാണ്' എന്ന് അവൻ പറഞ്ഞപ്പോൾ" },
+          { letter: "D", arLetter: "د", text: "جاء شاهد", trans: "സാക്ഷി ഹാജരായി" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 68,
+        question: "بم أمر إياس رجال شرطته؟",
+        qMal: "(ഖാദി ഇയാസ് തന്റെ പോലീസുകാരോട് എന്ത് ചെയ്യാനാണ് ഉത്തരവിട്ടത്:)",
+        hint: "التحفظ على التاجر ومراقبته بدقة وعدم السماح له بالهروب.",
+        hintMal: "(വ്യാപാരിയെ തടഞ്ഞുവെക്കാനും അവിടെനിന്ന് വിട്ടുപോകാൻ അനുവദിക്കാതിരിക്കാനും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أن يقبضوا على التاجر ولا يتركوه يغادر مكانه", trans: "വ്യാപാരിയെ തടഞ്ഞുവെക്കാനും വിട്ടുപോകാൻ അനുവദിക്കാതിരിക്കാനും" },
+          { letter: "B", arLetter: "ب", text: "أن يبحثوا في الصحراء", trans: "മരുഭൂമിയിൽ തിരച്ചിൽ നടത്താൻ" },
+          { letter: "C", arLetter: "ج", text: "أن يطلقوا التاجر", trans: "വ്യാപാരിയെ സ്വതന്ത്രനാക്കാൻ" },
+          { letter: "D", arLetter: "د", text: "أن يذهبوا إلى الشجرة", trans: "മരത്തിനടുത്തേക്ക് പോകാൻ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 69,
+        question: "ماذا نقول عند الوفاة والعزاء؟",
+        qMal: "(മരണവാർത്ത കേൾക്കുമ്പോഴും അനുശോചനത്തിലും നാം എന്താണ് പറയുക:)",
+        hint: "الاسترجاع والإقرار بأن الخلق جميعاً ملك لله وإليه المرجع.",
+        hintMal: "('ഇന്നാ ലില്ലാഹി വ ഇന്നാ ഇലൈഹി റാജിഊൻ').",
+        options: [
+          { letter: "A", arLetter: "أ", text: "زواج مبارك", trans: "വിവാഹാശംസകൾ" },
+          { letter: "B", arLetter: "ب", text: "إنا لله وإنا إليه راجعون", trans: "തീർച്ചയായും നാം അല്ലാഹുവിന്റേതാണ്, അവനിലേക്കാണ് മടക്കം" },
+          { letter: "C", arLetter: "ج", text: "تقبل الله منا ومنكم", trans: "അല്ലാഹു സ്വീകരിക്കട്ടെ" },
+          { letter: "D", arLetter: "د", text: "مبارك النجاح", trans: "വിജയാശംസകൾ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 70,
+        question: "أنواع الكلمة في العربية هي:",
+        qMal: "(അറബിയിലെ പദങ്ങളുടെ വിഭജനം ഏതെല്ലാമാണ്:)",
+        hint: "ثلاثة أقسام رئيسية تتكون منها لغة الضاد.",
+        hintMal: "(ഇസ്മ്, ഫിഅ്ൽ, ഹർഫ് (നാമം, ക്രിയ, അവ്യയം)).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "اسم وفعل وحرف", trans: "നാമം, ക്രിയ, ഹർഫ്" },
+          { letter: "B", arLetter: "ب", text: "ماض ومضارع وأمر", trans: "ഭൂതം, വർത്തമാനം, കല്പന" },
+          { letter: "C", arLetter: "ج", text: "مفرد ومثنى وجمع", trans: "ഏകവചനം, ദ്വിവചനം, ബഹുവചനം" },
+          { letter: "D", arLetter: "د", text: "مذكر ومؤنث وجمع", trans: "പുല്ലിംഗം, സ്ത്രീലിംഗം, ബഹുവചനം" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 71,
+        question: "قائل البيت «والمرءُ يُذكر بالجمائل بعده» هو:",
+        qMal: "('മനുഷ്യൻ മരണശേഷം തന്റെ സൽപ്രവൃത്തികളാൽ സ്മരിക്കപ്പെടുന്നു' എന്ന കവിതാ വരി ആരുടേതാണ്:)",
+        hint: "أمير الشعراء الشاعر المصري الكبير.",
+        hintMal: "(അഹ്മദ് ശൗഖി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "حافظ إبراهيم", trans: "ഹാഫിദ് ഇബ്രാഹിം" },
+          { letter: "B", arLetter: "ب", text: "الكريزي", trans: "അൽ-കുറൈസി" },
+          { letter: "C", arLetter: "ج", text: "الإمام علي بن أبي طالب", trans: "ഇമാം അലി" },
+          { letter: "D", arLetter: "د", text: "أحمد شوقي", trans: "അഹ്മദ് ശൗഖി" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 72,
+        question: "في البيت «الأم روض إن تعهده الحيا ...» يُشبه الشاعر الأم بـ:",
+        qMal: "('അമ്മ ഒരു പൂന്തോട്ടമാണ്...' എന്ന വരിയിൽ കവി അമ്മയെ എന്തിനോടാണ് ഉപമിക്കുന്നത്:)",
+        hint: "الحديقة والبستان المليء بالخضرة والجمال.",
+        hintMal: "(പൂന്തോട്ടം / തോട്ടം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "المدرسة", trans: "വിദ്യാലയം" },
+          { letter: "B", arLetter: "ب", text: "القصر", trans: "കൊട്ടാരം" },
+          { letter: "C", arLetter: "ج", text: "الروض", trans: "പൂന്തോട്ടം" },
+          { letter: "D", arLetter: "د", text: "السيف", trans: "വാൾ" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 73,
+        question: "المراد من «فيوم صالح منه غنيمة» أن:",
+        qMal: "('അതിൽ ഒരു നല്ല ദിവസം ലഭിക്കുന്നത് ഒരു വലിയ നേട്ടമാണ്' എന്നതിന്റെ ഉദ്ദേശ്യം:)",
+        hint: "استغلال الأوقات السعيدة في تقلبات الدهر.",
+        hintMal: "(പ്രതികൂലമായ കാലത്ത് ലഭിക്കുന്ന നല്ല ദിവസങ്ങൾ വിലപ്പെട്ട അവസരമാണ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "لا يدوم سرور", trans: "സന്തോഷം നിലനിൽക്കില്ല" },
+          { letter: "B", arLetter: "ب", text: "اليوم الطيب في الزمان السيئ فرصة ثمينة", trans: "മോശം കാലത്തെ ഒരു നല്ല ദിനം വിലപ്പെട്ട അവസരമാണ്" },
+          { letter: "C", arLetter: "ج", text: "الوقت كالسيف", trans: "സമയം വാൾ പോലെയാണ്" },
+          { letter: "D", arLetter: "د", text: "كل الأيام حزينة", trans: "എല്ലാ ദിവസങ്ങളും ദുഃഖകരമാണ്" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 74,
+        question: "أكمل: «العمل شرفٌ، والعمل كسب، والعمل .......»",
+        qMal: "(പൂർത്തിയാക്കുക: 'ജോലി എന്നത് അന്തസ്സാണ്, സമ്പാദ്യമാണ്, ജോലി എന്നാൽ ......')",
+        hint: "أثمن من الأموال ولا يفنى، بل هو مستودع للغنى والكرامة.",
+        hintMal: "(ഒരു നിധിയാണ് - കൻസ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "راحة", trans: "വിശ്രമം" },
+          { letter: "B", arLetter: "ب", text: "ثروة", trans: "സമ്പത്ത്" },
+          { letter: "C", arLetter: "ج", text: "كنز", trans: "നിധി" },
+          { letter: "D", arLetter: "د", text: "تعب", trans: "ക്ഷീണം" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 75,
+        question: "«أكتب» فعل:",
+        qMal: "('ഉക്തുബ്' (എഴുതുക) എന്നത് ഏത് ക്രിയയാണ്:)",
+        hint: "صيغة طلب إحداث الفعل وإنجازه موجهة للمخاطب.",
+        hintMal: "(കല്പനാക്രിയ - ഫിഅ്ൽ അംറ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "ماض", trans: "ഭൂതകാല ക്രിയ" },
+          { letter: "B", arLetter: "ب", text: "أمر", trans: "കല്പനാക്രിയ" },
+          { letter: "C", arLetter: "ج", text: "نهي", trans: "വിലക്ക്" },
+          { letter: "D", arLetter: "د", text: "مضارع", trans: "വർത്തമാനകാല ക്രിയ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 76,
+        question: "من قال: «أيها الأمير جئتك مستجديا لا مستفتيا»؟",
+        qMal: "('അമീറേ, ഞാൻ സഹായം ചോദിച്ചു വന്നതാണ്, മതവിധി തേടിയല്ല' എന്ന് പറഞ്ഞത് ആര്:)",
+        hint: "الأعرابي الذي أراد نفقة للحج حين سأله الخليفة عن الفقه والمناسك.",
+        hintMal: "(മഅ്മൂൻ ഖലീഫയോട് ഗ്രാമീണൻ പറഞ്ഞത്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الشيخ للشابين", trans: "വൃദ്ധൻ രണ്ട് യുവാക്കളോട്" },
+          { letter: "B", arLetter: "ب", text: "المأمون للأعرابي", trans: "മഅ്മൂൻ ഗ്രാമീണനോട്" },
+          { letter: "C", arLetter: "ج", text: "الأعرابي للمأمون", trans: "ഗ്രാമീണൻ മഅ്മൂനോട്" },
+          { letter: "D", arLetter: "د", text: "الطبيب للرجل", trans: "വൈദ്യൻ മനുഷ്യനോട്" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 77,
+        question: "في طرفة «جواب الشيخ» اتفق الشابان على أن:",
+        qMal: "('വൃദ്ധന്റെ മറുപടി' എന്ന തമാശക്കഥയിൽ രണ്ട് യുവാക്കൾ തമ്മിൽ എന്തിനാണ് ഒത്തുകളിച്ചത്:)",
+        hint: "الاستهزاء بالرجل الكبير وامتحانه بسؤال ساخر.",
+        hintMal: "(വൃദ്ധനെ കളിയാക്കാനും പരിഹസിക്കാനും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "يسخرا من الشيخ", trans: "വൃദ്ധനെ പരിഹസിക്കാൻ" },
+          { letter: "B", arLetter: "ب", text: "يستشيرا الشيخ", trans: "വൃദ്ധനോട് ഉപദേശം തേടാൻ" },
+          { letter: "C", arLetter: "ج", text: "يأكلا مع الشيخ", trans: "വൃദ്ധനോടൊപ്പം ഭക്ഷണം കഴിക്കാൻ" },
+          { letter: "D", arLetter: "د", text: "يساعدا الشيخ", trans: "വൃദ്ധനെ സഹായിക്കാൻ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 78,
+        question: "الفراغ إذا لم يملأ بالخير والنفع:",
+        qMal: "(ഒഴിവുസമയങ്ങൾ നന്മകൊണ്ടും ഉപകാരംകൊണ്ടും വിനിയോഗിച്ചില്ലെങ്കിൽ:)",
+        hint: "يسبب الخمول والوهن وضياع الطاقات.",
+        hintMal: "(മനുഷ്യന് ദോഷകരമായ മടി ഉണ്ടാക്കും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "طور المهارات", trans: "കഴിവുകൾ വികസിപ്പിക്കും" },
+          { letter: "B", arLetter: "ب", text: "زاد المال", trans: "പണം വർദ്ധിപ്പിക്കും" },
+          { letter: "C", arLetter: "ج", text: "حقق النجاح", trans: "വിജയം കൈവരിക്കും" },
+          { letter: "D", arLetter: "د", text: "وَلَدَ الكسل الذي يضر بالإنسان", trans: "മനുഷ്യന് ഉപദ്രവകരമായ അലസത ഉണ്ടാക്കും" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 79,
+        question: "أي مما يلي ليس من الآفات الخطيرة المذكورة في المقالة؟",
+        qMal: "(ലേഖനത്തിൽ പരാമർശിച്ച മാരകമായ വിപത്തുകളിൽ പെടാത്തത് ഏതാണ്:)",
+        hint: "نشاط بدني وصحي مفيد للجسم وليس آفة ضارة.",
+        hintMal: "(കായിക വ്യായാമം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "تناول المخدرات", trans: "ലഹരിമരുന്ന് ഉപയോഗം" },
+          { letter: "B", arLetter: "ب", text: "شرب الكحوليات", trans: "മദ്യപാനം" },
+          { letter: "C", arLetter: "ج", text: "التدخين", trans: "പുകവലി" },
+          { letter: "D", arLetter: "د", text: "ممارسة الرياضة", trans: "കായിക വ്യായാമം" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 80,
+        question: "جمع «كنز» هو:",
+        qMal: "('കൻസുൻ' (നിധി) എന്ന പദത്തിന്റെ ബഹുവചനം:)",
+        hint: "جمع تكسير مشهور على وزن فُعُول.",
+        hintMal: "(കുനൂസ് (നിധികൾ)).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "کناز", trans: "കിനാസ്" },
+          { letter: "B", arLetter: "ب", text: "كنوز", trans: "കുനൂസ് (നിധികൾ)" },
+          { letter: "C", arLetter: "ج", text: "كنزات", trans: "കൻസാത്ത്" },
+          { letter: "D", arLetter: "د", text: "أكناز", trans: "അക്നാസ്" }
+        ],
+        answer: "B"
+      },
+
+      /* SET E (81 to 100) */
+      {
+        id: 81,
+        question: "نستخدم أداة الاستفهام «من» للسؤال عن:",
+        qMal: "('മൻ' (ആര്) എന്ന ചോദ്യവാക്ക് എന്തിനെക്കുറിച്ച് ചോദിക്കാൻ ഉപയോഗിക്കുന്നു:)",
+        hint: "أداة سؤال تستخدم للعاقل والبشر.",
+        hintMal: "(വ്യക്തിയെക്കുറിച്ച് ചോദിക്കാൻ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الشخص", trans: "വ്യക്തി" },
+          { letter: "B", arLetter: "ب", text: "المكان", trans: "സ്ഥലം" },
+          { letter: "C", arLetter: "ج", text: "الزمان", trans: "സമയം" },
+          { letter: "D", arLetter: "د", text: "السبب", trans: "കാരണം" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 82,
+        question: "أكمل بالحرف المناسب: «اكتب ...... القلم الأسود»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'കറുത്ത പേന ..... എഴുതുക')",
+        hint: "حرف جر للاستعانة بالأداة والوسيلة.",
+        hintMal: "('കൊണ്ട്' എന്ന അർത്ഥത്തിൽ ഉപകരണം സൂചിപ്പിക്കുന്ന 'ബി' അക്ഷരം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "على", trans: "മേൽ" },
+          { letter: "B", arLetter: "ب", text: "عن", trans: "കുറിച്ച്" },
+          { letter: "C", arLetter: "ج", text: "إلى", trans: "ലേക്ക്" },
+          { letter: "D", arLetter: "د", text: "بِـ", trans: "കൊണ്ട്" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 83,
+        question: "أكمل بالحرف المناسب: «ذهبت ماجدة ...... والدها»",
+        qMal: "(ശരിയായ അക്ഷരം കൊണ്ട് പൂരിപ്പിക്കുക: 'മാജിദ തന്റെ പിതാവിന്റെ ..... പോയി')",
+        hint: "ظرف يدل على المصاحبة والمرافقة.",
+        hintMal: "('കൂടെ' എന്നർത്ഥം വരുന്ന വാക്ക്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "عن", trans: "കുറിച്ച്" },
+          { letter: "B", arLetter: "ب", text: "مع", trans: "കൂടെ" },
+          { letter: "C", arLetter: "ج", text: "على", trans: "മേൽ" },
+          { letter: "D", arLetter: "د", text: "في", trans: "ൽ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 84,
+        question: "الرد المناسب على «مرحبا» هو:",
+        qMal: "('മർഹബൻ' (സ്വാഗതം) എന്നതിന് അനുയോജ്യമായ മറുപടി:)",
+        hint: "رد الترحيب بأحسن منه أو بمثله مع كاف الخطاب.",
+        hintMal: "('നിങ്ങൾക്കും സ്വാഗതം').",
+        options: [
+          { letter: "A", arLetter: "أ", text: "مرحبا بك", trans: "നിങ്ങൾക്കും സ്വാഗതം" },
+          { letter: "B", arLetter: "ب", text: "الشرف لنا", trans: "ബഹുമതി ഞങ്ങൾക്ക്" },
+          { letter: "C", arLetter: "ج", text: "صباح النور", trans: "ശുഭ പ്രഭാതം" },
+          { letter: "D", arLetter: "د", text: "وأنا أيضا", trans: "ഞാനും അതെ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 85,
+        question: "ماذا تقول لصديقك قبل الامتحان؟",
+        qMal: "(പരീക്ഷയ്ക്ക് മുമ്പ് സുഹൃത്തിന് എന്ത് ആശംസയാണ് നൽകുക:)",
+        hint: "تمني السداد والرشاد والتفوق في الاختبار.",
+        hintMal: "(വിജയവും സൗഭാഗ്യവും നേരുന്നു).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "سفر مبارك", trans: "ശുഭയാത്ര" },
+          { letter: "B", arLetter: "ب", text: "البقاء لله", trans: "അനുശോചനം" },
+          { letter: "C", arLetter: "ج", text: "مبارك النجاح", trans: "വിജയാശംസകൾ" },
+          { letter: "D", arLetter: "د", text: "بالتوفيق والنجاح", trans: "വിജയവും സൗഭാഗ്യവും നേരുന്നു" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 86,
+        question: "الرد المناسب على «حج مبرور» هو:",
+        qMal: "('ഹജ്ജ് മബ്റൂർ' എന്ന് ആശംസിച്ചാൽ തിരിച്ചു പറയുന്ന മറുപടി:)",
+        hint: "دعاء بقبول الطاعات وصالح الأعمال من الطرفين.",
+        hintMal: "('അല്ലാഹു നമ്മിൽ നിന്നും നിങ്ങളിൽ നിന്നും സ്വീകരിക്കട്ടെ').",
+        options: [
+          { letter: "A", arLetter: "أ", text: "مرحبا بك", trans: "സ്വാഗതം" },
+          { letter: "B", arLetter: "ب", text: "تقبل الله منا ومنكم", trans: "അല്ലാഹു നമ്മിൽ നിന്നും നിങ്ങളിൽ നിന്നും സ്വീകരിക്കട്ടെ" },
+          { letter: "C", arLetter: "ج", text: "وأنا أيضا", trans: "ഞാനും അതെ" },
+          { letter: "D", arLetter: "د", text: "آمين، شكرا", trans: "ആമീൻ, നന്ദി" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 87,
+        question: "راوي الحديثين في درس «من ضياء القرآن والسنة» هو:",
+        qMal: "('ഖുർആന്റെയും സുന്നത്തിന്റെയും പ്രഭയിൽ' എന്ന പാഠഭാഗത്തെ രണ്ട് ഹദീസുകളുടെ നിവേദകൻ:)",
+        hint: "الصحابي الجليل الذي روى العديد من الأحاديث النبوية المشهورة.",
+        hintMal: "(അബൂഹുറൈറ (റ)).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "عمر بن الخطاب", trans: "ഉമർ ബിൻ ഖത്താബ്" },
+          { letter: "B", arLetter: "ب", text: "عبد الله بن عباس", trans: "അബ്ദുല്ലാഹ് ബിൻ അബ്ബാസ്" },
+          { letter: "C", arLetter: "ج", text: "أنس بن مالك", trans: "അനസ് ബിൻ മാലിക്" },
+          { letter: "D", arLetter: "د", text: "أبو هريرة", trans: "അബൂഹുറൈറ" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 88,
+        question: "عاش القاضي إياس بن معاوية في العصر:",
+        qMal: "(ഖാദി ഇയാസ് ബിൻ മുആവിയ ഏത് ഭരണകാലത്താണ് ജീവിച്ചിരുന്നത്:)",
+        hint: "عصر الخلافة التي اتخذت من دمشق عاصمة لها.",
+        hintMal: "(ഉമയ്യദ് കാലഘട്ടം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "العباسي", trans: "അബ്ബാസി കാലഘട്ടം" },
+          { letter: "B", arLetter: "ب", text: "الأموي", trans: "ഉമയ്യദ് കാലഘട്ടം" },
+          { letter: "C", arLetter: "ج", text: "العثماني", trans: "ഉസ്മാനിയാ കാലഘട്ടം" },
+          { letter: "D", arLetter: "د", text: "الجاهلي", trans: "ജാഹിലിയ്യാ കാലഘട്ടം" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 89,
+        question: "جمع «تاجر» هو:",
+        qMal: "('താജിർ' (വ്യാപാരി) എന്നതിന്റെ ബഹുവചനം:)",
+        hint: "جمع تكسير شائع يضم التاء ويشدد الجيم.",
+        hintMal: "(തുജ്ജാർ (വ്യാപാരികൾ)).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "تجار", trans: "തുജ്ജാർ (വ്യാപാരികൾ)" },
+          { letter: "B", arLetter: "ب", text: "تواجر", trans: "തവാജിർ" },
+          { letter: "C", arLetter: "ج", text: "تاجرون", trans: "താജിറൂൻ" },
+          { letter: "D", arLetter: "د", text: "أتجار", trans: "അത്ജാർ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 90,
+        question: "أي الكلمات الآتية اسم؟",
+        qMal: "(താഴെ പറയുന്നവയിൽ നാമം (ഇസ്മ്) ഏതാണ്:)",
+        hint: "أداة جماد تستخدم في الكتابة والتدوين.",
+        hintMal: "(ഖലം (പേന)).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "اجلس", trans: "ഇരിക്കൂ (ക്രിയ)" },
+          { letter: "B", arLetter: "ب", text: "قلم", trans: "പേന (നാമം)" },
+          { letter: "C", arLetter: "ج", text: "درس", trans: "പഠിച്ചു (ക്രിയ)" },
+          { letter: "D", arLetter: "د", text: "على", trans: "മേൽ (ഹർഫ്)" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 91,
+        question: "الشاعر حافظ إبراهيم من:",
+        qMal: "(കവി ഹാഫിദ് ഇബ്രാഹിം ഏത് രാജ്യക്കാരനാണ്:)",
+        hint: "بلد النيل والأهرامات ولقب بشاعر نيلها.",
+        hintMal: "(ഈജിപ്ത് - മിസ്വർ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "العراق", trans: "ഇറാഖ്" },
+          { letter: "B", arLetter: "ب", text: "الشام", trans: "ശാഫിഈ നാട്" },
+          { letter: "C", arLetter: "ج", text: "مصر", trans: "ഈജിപ്ത്" },
+          { letter: "D", arLetter: "د", text: "الحجاز", trans: "ഹിജാസ്" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 92,
+        question: "كان الإمام علي بن أبي طالب الخليفة الراشد:",
+        qMal: "(ഇമാം അലി ബിൻ അബീത്വാലിബ് എത്രാമത്തെ സച്ചരിതനായ ഖലീഫയാണ്:)",
+        hint: "جاءت خلافته بعد عثمان بن عفان رضي الله عنهما.",
+        hintMal: "(നാലാമത്തെ ഖലീഫ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الثالث", trans: "മൂന്നാമത്തെ" },
+          { letter: "B", arLetter: "ب", text: "الأول", trans: "ഒന്നാമത്തെ" },
+          { letter: "C", arLetter: "ج", text: "الثاني", trans: "രണ്ടാമത്തെ" },
+          { letter: "D", arLetter: "د", text: "الرابع", trans: "നാലാമത്തെ" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 93,
+        question: "أكمل البيت: «رأيتُ الدهر مختلفًا يدور فلا حزن يدوم ولا .......»",
+        qMal: "(കവിതാ ശകലം പൂർത്തിയാക്കുക: 'കാലം മാറിമറിഞ്ഞു കറങ്ങുന്നത് ഞാൻ കണ്ടു, ദുഃഖവും നിലനിൽക്കില്ല ......')",
+        hint: "مقابل الحزن والأسى دوام الفرح والانشراح لا يبقى.",
+        hintMal: "(സന്തോഷവും ശാശ്വതമല്ല).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "سرور", trans: "സന്തോഷം" },
+          { letter: "B", arLetter: "ب", text: "ملوك", trans: "രാജാക്കന്മാർ" },
+          { letter: "C", arLetter: "ج", text: "قصور", trans: "കൊട്ടാരങ്ങൾ" },
+          { letter: "D", arLetter: "د", text: "دهور", trans: "കാലഘട്ടങ്ങൾ" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 94,
+        question: "أكمل البيت: «واعلم بأنك سوف تُذكَرُ مرةً فيُقال أحسن أو يُقالُ ........»",
+        qMal: "(കവിതാ ശകലം പൂർത്തിയാക്കുക: 'നീ ഒരിക്കൽ ഓർമ്മിക്കപ്പെടുമെന്ന് അറിയുക, ഒന്നുകിൽ നല്ലത് ചെയ്തു എന്ന് പറയപ്പെടും അല്ലെങ്കിൽ ......')",
+        hint: "عكس الإحسان وفعل الشر والمذمة.",
+        hintMal: "('മോശമായി പെരുമാറി' എന്ന് പറയപ്പെടും).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "أساء", trans: "മോശമായി പെരുമാറി" },
+          { letter: "B", arLetter: "ب", text: "أصاب", trans: "ശരിയായി ചെയ്തു" },
+          { letter: "C", arLetter: "ج", text: "مضى", trans: "കടന്നുപോയി" },
+          { letter: "D", arLetter: "د", text: "بنی", trans: "നിർമ്മിച്ചു" }
+        ],
+        answer: "A"
+      },
+      {
+        id: 95,
+        question: "قال الأب لولده: «وأوصيك بصحتك فهي ........»",
+        qMal: "(പിതാവ് മകനോട് പറഞ്ഞു: 'നിന്റെ ആരോഗ്യത്തെ ഞാൻ വസ്വിയ്യത്ത് ചെയ്യുന്നു, കാരണം അത് നിന്റെ ......')",
+        hint: "الدرع الذي يحميك والسند القوي الذي يعينك.",
+        hintMal: "(നിന്റെ പരിചയും കരുത്തുറ്റ താങ്ങുമാണ്).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "شرفك وكسبك", trans: "നിന്റെ അന്തസ്സും സമ്പാദ്യവും" },
+          { letter: "B", arLetter: "ب", text: "كنزك وثروتك", trans: "നിന്റെ നിധിയും സമ്പത്തും" },
+          { letter: "C", arLetter: "ج", text: "درعك وسندك", trans: "നിന്റെ പരിചയും താങ്ങും" },
+          { letter: "D", arLetter: "د", text: "أمان من الفقر", trans: "ദാരിദ്ര്യത്തിൽ നിന്നുള്ള അഭയം" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 96,
+        question: "قال الأعرابي للمأمون: «ليس معي ......»",
+        qMal: "(ഗ്രാമീണൻ ഖലീഫ മഅ്മൂനോട് പറഞ്ഞു: 'എന്റെ പക്കൽ ...... ഇല്ല')",
+        hint: "المال الكافي والمؤونة والزاد للرحلة.",
+        hintMal: "(യാത്രാച്ചെലവ് / ധനം).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "طعام", trans: "ഭക്ഷണം" },
+          { letter: "B", arLetter: "ب", text: "صاحب", trans: "സുഹൃത്ത്" },
+          { letter: "C", arLetter: "ج", text: "نفقة", trans: "യാത്രാച്ചെലവ്/പണം" },
+          { letter: "D", arLetter: "د", text: "دليل", trans: "വഴികാട്ടി" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 97,
+        question: "ماذا فعل المأمون في آخر طرفة «أعرابي يريد الحج»؟",
+        qMal: "('ഹജ്ജ് ചെയ്യാൻ ഉദ്ദേശിച്ച ഗ്രാമീണൻ' എന്ന തമാശയുടെ അവസാനം മഅ്മൂൻ എന്താണ് ചെയ്തത്:)",
+        hint: "تبسم واستملح كلام الأعرابي وأعطاه عطاءً ومالاً.",
+        hintMal: "(ചിരിക്കുകയും അദ്ദേഹത്തിന് ധനസഹായം നൽകാൻ ഉത്തരവിടുകയും ചെയ്തു).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "سافر معه إلى الحج", trans: "അദ്ദേഹത്തോടൊപ്പം ഹജ്ജിന് പോയി" },
+          { letter: "B", arLetter: "ب", text: "غضب وأخرجه", trans: "ദേഷ്യപ്പെട്ട് പുറത്താക്കി" },
+          { letter: "C", arLetter: "ج", text: "ضحك وأمر له بصلة", trans: "ചിരിക്കുകയും ധനസമ്മാനം നൽകാൻ ഉത്തരവിടുകയും ചെയ്തു" },
+          { letter: "D", arLetter: "د", text: "أرسله إلى القاضي", trans: "ന്യായാധിപനടുത്തേക്ക് അയച്ചു" }
+        ],
+        answer: "C"
+      },
+      {
+        id: 98,
+        question: "ماذا أكل الرجل الذي شكا وجع بطنه؟",
+        qMal: "(വയറുവേദന പരാതിപ്പെട്ട മനുഷ്യൻ എന്താണ് കഴിച്ചിരുന്നത്:)",
+        hint: "خبزاً أصابته النار كثيراً حتى اسودّ وتفحم.",
+        hintMal: "(കരിഞ്ഞുപോയ റൊട്ടി).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "تمرا كثيرا", trans: "ധാരാളം ഈത്തപ്പഴം" },
+          { letter: "B", arLetter: "ب", text: "لحمًا فاسدا", trans: "ചീഞ്ഞ മാംസം" },
+          { letter: "C", arLetter: "ج", text: "فاكهة خضراء", trans: "പഴുക്കാത്ത പഴങ്ങൾ" },
+          { letter: "D", arLetter: "د", text: "رغيفا محترقا", trans: "കരിഞ്ഞ റൊട്ടി" }
+        ],
+        answer: "D"
+      },
+      {
+        id: 99,
+        question: "أكمل: «فبالشكر تدوم ......»",
+        qMal: "(പൂർത്തിയാക്കുക: 'നന്ദി ചെയ്യുന്നതിലൂടെ ...... നിലനിൽക്കുന്നു')",
+        hint: "العطايا والخيرات التي ينعم الله بها على عباده.",
+        hintMal: "(അനുഗ്രഹങ്ങൾ - നിഅ്മകൾ).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "الصحة", trans: "ആരോഗ്യം" },
+          { letter: "B", arLetter: "ب", text: "النِّعَمُ", trans: "അനുഗ്രഹങ്ങൾ" },
+          { letter: "C", arLetter: "ج", text: "الأوقات", trans: "സമയങ്ങൾ" },
+          { letter: "D", arLetter: "د", text: "الأيام", trans: "ദിനങ്ങൾ" }
+        ],
+        answer: "B"
+      },
+      {
+        id: 100,
+        question: "أي الأفعال الآتية فعل ماض؟",
+        qMal: "(താഴെ പറയുന്നവയിൽ ഭൂതകാല ക്രിയ (മാളി) ഏതാണ്:)",
+        hint: "يدل على الذهاب وانقضائه بالبناء على الفتح.",
+        hintMal: "('ദഹബ' (പോയി)).",
+        options: [
+          { letter: "A", arLetter: "أ", text: "إذهب", trans: "പോകൂ (കല്പന)" },
+          { letter: "B", arLetter: "ب", text: "يذهب", trans: "പോകുന്നു (വർത്തമാനം)" },
+          { letter: "C", arLetter: "ج", text: "ذَهَبَ", trans: "പോയി (ഭൂതകാലം)" },
+          { letter: "D", arLetter: "د", text: "لا تذهب", trans: "പോകരുത് (വിലക്ക്)" }
+        ],
+        answer: "C"
+      }
+    ];
+
+    /* APP STATE */
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbw6IXYRG6MiU8g6TJQu5H1H7jdtAPjy3_9j5FT5uJSpRIoQwGM9aIVQs7-XFTX05Alclw/exec";
+    const SUBJECT_NAME = "ARABIC";
+
+    let studentName = "";
+    let examDateStr = "";
+    let startTime = null;
+    let endTime = null;
+    let userAnswers = {};
+    let isSubmitted = false;
+
+    // Set Exam Date
+    const today = new Date();
+    examDateStr = today.toISOString().split('T')[0];
+    document.getElementById("login-date-badge").textContent = "Date: " + examDateStr;
+
+    // Login Form Handler
+    document.getElementById("login-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById("student-name").value.trim();
+      if (!nameInput) return;
+
+      studentName = nameInput;
+      document.getElementById("nav-student-name").textContent = studentName;
+      startTime = new Date();
+
+      document.getElementById("login-screen").classList.remove("active");
+      document.getElementById("exam-screen").classList.add("active");
+      renderQuestions();
+    });
+
+    // Render Questions
+    function renderQuestions() {
+      const container = document.getElementById("questions-list");
+      container.innerHTML = "";
+
+      questionsData.forEach((q, index) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+        card.id = `qcard-${q.id}`;
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">Question ${index + 1} of 100</span>
+            <div class="action-buttons">
+              <button type="button" class="btn btn-secondary" onclick="toggleHint(${q.id})">Hint</button>
+              <button type="button" class="btn btn-secondary" onclick="toggleMalayalam(${q.id})">Malayalam</button>
+            </div>
+          </div>
+
+          <div class="q-text-block">
+            <div class="q-arabic arabic-text">${q.question}</div>
+            <div class="q-translation malayalam-text" id="mal-q-${q.id}">${q.qMal}</div>
+          </div>
+
+          <div class="hint-block" id="hint-box-${q.id}">
+            <div class="hint-title">Clue / الإشارة الإرشادية</div>
+            <div class="arabic-text" style="font-size: 1.1rem;">${q.hint}</div>
+            <div class="malayalam-text" id="mal-hint-${q.id}" style="display:none; margin-top: 4px;">${q.hintMal}</div>
+          </div>
+
+          <div class="options-grid">
+            ${q.options.map(opt => `
+              <button type="button" class="opt-btn" id="opt-${q.id}-${opt.letter}" onclick="selectAnswer(${q.id}, '${opt.letter}')">
+                <div class="opt-main">
+                  <span class="arabic-text">${opt.text}</span>
+                  <span class="opt-label-ar">${opt.arLetter}</span>
+                </div>
+                <div class="opt-trans malayalam-text" id="mal-opt-${q.id}-${opt.letter}">
+                  (${opt.trans})
+                </div>
+              </button>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Toggle Hint (Arabic Clue first)
+    window.toggleHint = function(qid) {
+      const box = document.getElementById(`hint-box-${qid}`);
+      box.style.display = (box.style.display === "block") ? "none" : "block";
+    };
+
+    // Toggle Malayalam Translation Inline
+    window.toggleMalayalam = function(qid) {
+      const qTrans = document.getElementById(`mal-q-${qid}`);
+      const hTrans = document.getElementById(`mal-hint-${qid}`);
+      const isShowing = qTrans.style.display === "block";
+
+      qTrans.style.display = isShowing ? "none" : "block";
+      hTrans.style.display = isShowing ? "none" : "block";
+
+      const qObj = questionsData.find(item => item.id === qid);
+      qObj.options.forEach(opt => {
+        const oTrans = document.getElementById(`mal-opt-${qid}-${opt.letter}`);
+        if (oTrans) {
+          oTrans.style.display = isShowing ? "none" : "block";
+        }
+      });
+    };
+
+    // Instant Feedback & Lock
+    window.selectAnswer = function(qid, chosenLetter) {
+      if (userAnswers[qid] !== undefined) return;
+
+      userAnswers[qid] = chosenLetter;
+      const qObj = questionsData.find(item => item.id === qid);
+      const isCorrect = (chosenLetter === qObj.answer);
+
+      const selectedBtn = document.getElementById(`opt-${qid}-${chosenLetter}`);
+      if (isCorrect) {
+        selectedBtn.classList.add("correct");
+      } else {
+        selectedBtn.classList.add("incorrect");
+        const correctBtn = document.getElementById(`opt-${qid}-${qObj.answer}`);
+        if (correctBtn) correctBtn.classList.add("correct");
+      }
+
+      qObj.options.forEach(opt => {
+        const btn = document.getElementById(`opt-${qid}-${opt.letter}`);
+        if (btn) btn.disabled = true;
+      });
+
+      updateProgress();
+    };
+
+    function updateProgress() {
+      const attendedCount = Object.keys(userAnswers).length;
+      document.getElementById("nav-progress").textContent = `Attended: ${attendedCount} / 100`;
+    }
+
+    // Submission Dialog Handlers
+    document.getElementById("main-submit-btn").addEventListener("click", function() {
+      const attendedCount = Object.keys(userAnswers).length;
+      const unAttendedCount = 100 - attendedCount;
+
+      if (unAttendedCount > 0) {
+        document.getElementById("modal-warning-msg").textContent = 
+          `You have ${unAttendedCount} unanswered question(s). You can return to complete them or submit anyway.`;
+        document.getElementById("warning-modal").classList.add("active");
+      } else {
+        executeSubmission();
+      }
+    });
+
+    document.getElementById("modal-cancel-btn").addEventListener("click", function() {
+      document.getElementById("warning-modal").classList.remove("active");
+    });
+
+    document.getElementById("modal-proceed-btn").addEventListener("click", function() {
+      document.getElementById("warning-modal").classList.remove("active");
+      executeSubmission();
+    });
+
+    // Execute Final Submission
+    function executeSubmission() {
+      if (isSubmitted) return;
+      isSubmitted = true;
+      endTime = new Date();
+
+      const timeDiffSec = Math.floor((endTime - startTime) / 1000);
+      const minutes = Math.floor(timeDiffSec / 60);
+      const seconds = timeDiffSec % 60;
+      const timeTakenStr = `${minutes}m ${seconds}s`;
+
+      let score = 0;
+      let attended = 0;
+
+      questionsData.forEach(q => {
+        if (userAnswers[q.id] !== undefined) {
+          attended++;
+          if (userAnswers[q.id] === q.answer) {
+            score++;
+          }
+        }
+      });
+
+      const total = 100;
+      const unattended = total - attended;
+      const percentage = ((score / total) * 100).toFixed(1);
+      const grade = computeGrade(parseFloat(percentage));
+      const timestamp = new Date().toLocaleString();
+
+      const scorecardData = {
+        timestamp: timestamp,
+        name: studentName,
+        subject: SUBJECT_NAME,
+        date: examDateStr,
+        total: total,
+        timeTaken: timeTakenStr,
+        attended: attended,
+        unattended: unattended,
+        score: score,
+        percentage: percentage + "%",
+        grade: grade
+      };
+
+      // Silent tracking to Google Sheet
+      sendDataSilently(scorecardData);
+
+      // Render Scorecards & Review
+      renderScorecardUI(scorecardData);
+      renderReviewUI();
+
+      // Show Results Screen
+      document.getElementById("exam-screen").classList.remove("active");
+      document.getElementById("results-screen").classList.add("active");
+      window.scrollTo(0, 0);
+    }
+
+    function computeGrade(pct) {
+      if (pct >= 90) return "A+";
+      if (pct >= 80) return "A";
+      if (pct >= 70) return "B";
+      if (pct >= 60) return "C";
+      if (pct >= 50) return "D";
+      return "F";
+    }
+
+    function getPersonalizedNote(pct, name) {
+      if (pct >= 85) {
+        return `Exceptional mastery, ${name}! Your deep understanding of Arabic syntax, literary texts, proverbs, and grammar conventions is truly exemplary. Continue cultivating your linguistic precision.`;
+      } else if (pct >= 70) {
+        return `Great job, ${name}! You demonstrated a strong command across both vocabulary and grammatical rules. Reviewing a few specific subtleties in question structures will help you attain absolute perfection.`;
+      } else if (pct >= 50) {
+        return `Good foundation, ${name}. You managed to secure a passing standard, but focusing on verb forms, question particles, and literary excerpts from the curriculum will elevate your comprehension considerably.`;
+      } else {
+        return `Dedicated effort, ${name}. Arabic requires consistent review of root forms, particles (Huroof), and reading practice. Revisit the provided answer hints and notes to strengthen your core skills.`;
+      }
+    }
+
+    function generateScorecardHTML(data) {
+      const note = getPersonalizedNote(parseFloat(data.percentage), data.name);
+      return `
+        <div class="scorecard-header">
+          <div class="scorecard-title">Official Performance Scorecard</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">Submitted: ${data.timestamp}</div>
+        </div>
+
+        <div class="scorecard-meta">
+          <div class="meta-item"><strong>Student Name:</strong> ${data.name}</div>
+          <div class="meta-item"><strong>Subject:</strong> ${data.subject}</div>
+          <div class="meta-item"><strong>Exam Date:</strong> ${data.date}</div>
+          <div class="meta-item"><strong>Time Taken:</strong> ${data.timeTaken}</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Total Questions</div>
+            <div class="stat-value">${data.total}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Attended</div>
+            <div class="stat-value">${data.attended}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Unattended</div>
+            <div class="stat-value">${data.unattended}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Final Score</div>
+            <div class="stat-value" style="color:#16a34a;">${data.score} / ${data.total}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Percentage</div>
+            <div class="stat-value">${data.percentage}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Grade</div>
+            <div class="stat-value"><span class="grade-badge">${data.grade}</span></div>
+          </div>
+        </div>
+
+        <div class="feedback-note">
+          <strong>Advisor's Evaluation:</strong> ${note}
+        </div>
+      `;
+    }
+
+    function renderScorecardUI(data) {
+      const html = generateScorecardHTML(data);
+      document.getElementById("top-scorecard").innerHTML = html;
+      document.getElementById("bottom-scorecard").innerHTML = html;
+    }
+
+    function renderReviewUI() {
+      const revContainer = document.getElementById("review-questions-list");
+      revContainer.innerHTML = "";
+
+      questionsData.forEach((q, index) => {
+        const userChoice = userAnswers[q.id];
+        const isCorrect = (userChoice === q.answer);
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">Question ${index + 1}</span>
+            <span class="badge-info" style="${userChoice === undefined ? 'background:#f1f5f9; color:#475569;' : isCorrect ? 'background:#dcfce7; color:#15803d;' : 'background:#fee2e2; color:#b91c1c;'}">
+              ${userChoice === undefined ? 'Unanswered' : isCorrect ? 'Correct' : 'Incorrect'}
+            </span>
+          </div>
+
+          <div class="q-text-block">
+            <div class="q-arabic arabic-text">${q.question}</div>
+            <div class="malayalam-text" style="margin-top:6px;">${q.qMal}</div>
+          </div>
+
+          <div class="options-grid">
+            ${q.options.map(opt => {
+              let cls = "";
+              if (opt.letter === q.answer) cls = "correct";
+              if (userChoice === opt.letter && !isCorrect) cls = "incorrect";
+
+              return `
+                <div class="opt-btn ${cls}" style="cursor:default;">
+                  <div class="opt-main">
+                    <span class="arabic-text">${opt.text}</span>
+                    <span class="opt-label-ar">${opt.arLetter}</span>
+                  </div>
+                  <div class="malayalam-text" style="font-size:0.85rem; margin-top:4px;">
+                    (${opt.trans})
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        revContainer.appendChild(card);
+      });
+    }
+
+    // Silent background dispatch
+    function sendDataSilently(payload) {
+      try {
+        fetch(GOOGLE_SHEET_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      } catch (err) {}
+    }
+  </script>
+</body>
+</html>
